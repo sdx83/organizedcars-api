@@ -27,4 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Optional<Usuario> findByUsuarioAndPassword(String usuario, String password) {
 		return usuarioDAO.findByUsuarioAndPassword(usuario, password);
 	}
+	
+	@Override
+	public Optional<Usuario> findByUsuario(String usuario) {
+		return usuarioDAO.findByUsuario(usuario);
+	}
 }

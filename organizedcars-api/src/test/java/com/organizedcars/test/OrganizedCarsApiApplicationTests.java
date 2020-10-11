@@ -12,7 +12,7 @@ class OrganizedCarsApiApplicationTests {
 	}
 	
 	@Test
-	public void testGeneradorDeTurnos() {
+	public void testOrganizedCars() {
 		
 	
 	}

@@ -8,4 +8,7 @@ public interface UsuarioService {
 	
 	Optional<Usuario> findByUsuarioAndPassword(String usuario,String password);
 	
+	Optional<Usuario> findByUsuario(String usuario);
+	
+	
 }

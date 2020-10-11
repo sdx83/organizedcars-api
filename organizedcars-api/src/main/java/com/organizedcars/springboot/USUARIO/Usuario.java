@@ -37,9 +37,7 @@ public class Usuario implements Serializable  {
 	@Column(nullable=false, length=30)
 	private String mail;
 	
-	@Column(nullable=false, length=1)
-	private String sexo;
-	
+
 	@Column(nullable=false, length=8)
 	private String fecha_nacimiento;
 	
@@ -94,15 +92,6 @@ public class Usuario implements Serializable  {
 		this.mail = mail;
 	}
 	
-	
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
 	public String getFecha_nacimiento() {
 		return fecha_nacimiento;
 	}
@@ -128,7 +117,6 @@ public class Usuario implements Serializable  {
         this.usuario = usuario;
         this.password = pass;
         this.mail = mail;
-        this.sexo = sexo;
         this.fecha_nacimiento= fechaNac;
         this.telefono= telefono;
     }
