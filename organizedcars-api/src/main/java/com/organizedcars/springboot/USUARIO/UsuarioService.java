@@ -10,5 +10,10 @@ public interface UsuarioService {
 	
 	Optional<Usuario> findByUsuario(String usuario);
 	
+	public Usuario update(Usuario usuarioExistente, Usuario usuarioModificado);
+	
+	public Usuario delete(Usuario usuario);
+	
+	public Usuario activate(Usuario usuario);
 	
 }

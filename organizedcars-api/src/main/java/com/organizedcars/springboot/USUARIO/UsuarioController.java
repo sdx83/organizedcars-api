@@ -55,7 +55,6 @@ public class UsuarioController {
  		
  		if (usuarioExistente != null && usuarioExistente.isPresent()) {
  			throw new Exception("Usuario existente");
- 			
  		}
 
  		UsuarioHelper.validarUsuario(usuario, AccionUsuario.ALTA);
@@ -66,16 +65,46 @@ public class UsuarioController {
  	  	
      //PUT: http://localhost:8080/Usuarios/1
   	 @RequestMapping(value = "/{idUsuario}", method = RequestMethod.PUT)
-     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("idUsuario") long idUsuario, @RequestBody Usuario nuevoUsuario) {
+     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("idUsuario") long idUsuario, @RequestBody Usuario nuevoUsuario) throws Exception {
   		
-  		 Optional<Usuario> usuario = usuarioService.findById(idUsuario);
-  		 if(usuario.isPresent()) {
-  			usuario.get().setMail(nuevoUsuario.getMail().trim());
-  			usuario.get().setTelefono(nuevoUsuario.getTelefono().trim());
-  			return ResponseEntity.ok(usuarioService.save(usuario.get()));
-  		 }
-  		 else {
- 			return ResponseEntity.noContent().build();
-  		 }	
+  		 Optional<Usuario> usuarioExistente = usuarioService.findById(idUsuario);
+  		
+  		if (usuarioExistente != null && usuarioExistente.isPresent()) {
+
+			UsuarioHelper.validarUsuario(nuevoUsuario, AccionUsuario.MODIFICACION);
+			Usuario usuario = usuarioService.update(usuarioExistente.get(), nuevoUsuario);
+			return ResponseEntity.ok(usuario);
+		} else {
+			throw new Exception("Usuario no encontrado");
+		}
+
      }
+  	 
+    // PUT: http://localhost:8080/Usuarios/Eliminar/1
+ 	@RequestMapping(value = "/Eliminar/{idUsuario}", method = RequestMethod.PUT)
+ 	public ResponseEntity<Usuario> eliminarUsuario(@PathVariable("idUsuario") long idUsuario) throws Exception {
+
+ 		Optional<Usuario> usuario = usuarioService.findById(idUsuario);
+
+ 		if (usuario != null && usuario.isPresent()) {
+ 			Usuario usuarioEliminado = usuarioService.delete(usuario.get());
+ 			return ResponseEntity.ok(usuarioEliminado);
+ 		} else {
+ 			throw new Exception("Usuario no encontrado");
+ 		}
+ 	}
+ 	
+ // PUT: http://localhost:8080/Usuarios/Habilitar/1
+ 	@RequestMapping(value = "/Habilitar/{idUsuario}", method = RequestMethod.PUT)
+ 	public ResponseEntity<Usuario> habilitarUsuario(@PathVariable("idUsuario") long idUsuario) throws Exception {
+
+ 		Optional<Usuario> usuario = usuarioService.findById(idUsuario);
+
+ 		if (usuario != null && usuario.isPresent()) {
+ 			Usuario usuarioHabilitado = usuarioService.activate(usuario.get());
+ 			return ResponseEntity.ok(usuarioHabilitado);
+ 		} else {
+ 			throw new Exception("Usuario no encontrado");
+ 		}
+ 	}
 }

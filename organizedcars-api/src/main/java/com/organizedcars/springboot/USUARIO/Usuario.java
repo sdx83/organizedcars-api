@@ -44,6 +44,9 @@ public class Usuario implements Serializable  {
 	@Column(nullable=false, length=20)
 	private String telefono;
 	
+	@Column(nullable = false)
+	private boolean enable;
+	
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
@@ -108,6 +111,14 @@ public class Usuario implements Serializable  {
 		this.telefono = telefono;
 	}
 
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+	
 	public Usuario() {
     }
 	
