@@ -20,6 +20,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario save(Usuario usuario) {
+		
+		usuario.setEnable(true);
 		return usuarioDAO.save(usuario);
 	}
 	
