@@ -6,3 +6,5 @@ organizedcars-api/.mvn/wrapper/
 organizedcars-api/mvnw
 
 organizedcars-api/mvnw.cmd
+
+organizedcars-api/src/main/resources/application.properties
