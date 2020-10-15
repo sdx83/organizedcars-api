@@ -1,10 +1,14 @@
 
 .metadata/
 
-organizedcars-api/.mvn/wrapper/
+.mvn/wrapper/
 
-organizedcars-api/mvnw
+.settings/
 
-organizedcars-api/mvnw.cmd
+.classpath
 
-organizedcars-api/src/main/resources/application.properties
+.project
+
+target/classes/
+
+target/test-classes/com/organizedcars/test/
