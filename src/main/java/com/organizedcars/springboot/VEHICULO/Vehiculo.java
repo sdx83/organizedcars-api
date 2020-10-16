@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
+import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
 import com.organizedcars.springboot.MARCA.Marca;
 import com.organizedcars.springboot.PAIS.Pais;
 import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorios;
@@ -98,6 +99,9 @@ public class Vehiculo implements Serializable {
 	
 	@OneToMany(mappedBy = "vehiculo")
     private List<VehiculoRecordatorios> recordatorios;
+	
+	@OneToMany(mappedBy = "vehiculo")
+    private List<Mantenimiento> mantenimientos;
 	
 	
 	public String getDominio() {
@@ -274,6 +278,14 @@ public class Vehiculo implements Serializable {
 
 	public void setPais(Pais pais) {
 		this.pais = pais;
+	}
+
+	public List<Mantenimiento> getMantenimientos() {
+		return mantenimientos;
+	}
+
+	public void setMantenimientos(List<Mantenimiento> mantenimientos) {
+		this.mantenimientos = mantenimientos;
 	}
 	
 }
