@@ -8,11 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
+import com.organizedcars.springboot.MARCA.Marca;
+import com.organizedcars.springboot.PAIS.Pais;
 import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorios;
 
 
@@ -30,17 +34,19 @@ public class Vehiculo implements Serializable {
 	@Column(name="dominio", nullable=false, length=10, unique=true)
 	private String dominio;
 	
-	@Column(nullable=false,length=15)
-	private String marca;
+	@ManyToOne
+	@JoinColumn(name="id_marca",nullable=false)
+	private Marca marca;
+	
+	@ManyToOne
+	@JoinColumn(name="id_pais",nullable=false)
+	private Pais pais;
 	
 	@Column(nullable=true,length=15)
 	private String marcaMotor;
 	
 	@Column(nullable=true,length=15)
 	private String tipo;
-	
-	@Column(nullable=false,length=20)
-	private String modelo;
 	
 	@Column(nullable=true,length=20)
 	private String nroMotor;
@@ -72,7 +78,6 @@ public class Vehiculo implements Serializable {
 	@Column(nullable=true, length=8)
 	private String vtoOblea;
 	
-
 	@Column(nullable=true,length=50)
 	private String usuarioVehicuclo;
 	
@@ -103,14 +108,6 @@ public class Vehiculo implements Serializable {
 		this.dominio = dominio;
 	}
 
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
 	public String getMarcaMotor() {
 		return marcaMotor;
 	}
@@ -125,14 +122,6 @@ public class Vehiculo implements Serializable {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public String getModelo() {
-		return modelo;
-	}
-
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
 	}
 
 	public String getNroMotor() {
@@ -269,6 +258,22 @@ public class Vehiculo implements Serializable {
 
 	public void setRecordatorios(List<VehiculoRecordatorios> recordatorios) {
 		this.recordatorios = recordatorios;
+	}
+
+	public Marca getMarca() {
+		return marca;
+	}
+
+	public void setMarca(Marca marca) {
+		this.marca = marca;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 	
 }
