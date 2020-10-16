@@ -37,7 +37,6 @@ public class Usuario implements Serializable  {
 	@Column(nullable=false, length=30)
 	private String mail;
 	
-
 	@Column(nullable=false, length=8)
 	private String fecha_nacimiento;
 	
@@ -46,15 +45,32 @@ public class Usuario implements Serializable  {
 	
 	@Column(nullable = false)
 	private boolean enable;
+
+	@Column(nullable=false, length=5)
+	private String tipoDocumento;
 	
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
+	@Column(nullable=false, length=15)
+	private String nroDocumento;
+	
+	@Column(nullable=false, length=50)
+	private String calle;
+	
+	@Column(nullable=false, length=50)
+	private String nro;
+	
+	@Column(nullable=false, length=50)
+	private String codigoPostal;
+	
+	@Column(nullable=false, length=50)
+	private String localidad;
+	
+	@Column(nullable=false, length=50)
+	private String provincia;
+	
+	@Column(nullable=false, length=50)
+	private String pais;
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -119,16 +135,68 @@ public class Usuario implements Serializable  {
 		this.enable = enable;
 	}
 	
-	public Usuario() {
-    }
-	
-    public Usuario(String nombre,String apellido, String usuario, String pass, String mail,String sexo, String fechaNac, String telefono) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.usuario = usuario;
-        this.password = pass;
-        this.mail = mail;
-        this.fecha_nacimiento= fechaNac;
-        this.telefono= telefono;
-    }
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getNroDocumento() {
+		return nroDocumento;
+	}
+
+	public void setNroDocumento(String nroDocumento) {
+		this.nroDocumento = nroDocumento;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public String getNro() {
+		return nro;
+	}
+
+	public void setNro(String nro) {
+		this.nro = nro;
+	}
+
+	public String getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
 }
