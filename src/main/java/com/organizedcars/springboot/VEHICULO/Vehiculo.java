@@ -1,13 +1,19 @@
 package com.organizedcars.springboot.VEHICULO;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
+import com.organizedcars.springboot.GASTO.Gasto;
+import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorios;
 
 
 @Entity
@@ -78,6 +84,15 @@ public class Vehiculo implements Serializable {
 	
 	@Column(nullable=true,length=255)
 	private String descripcionVehiculo;
+	
+	@OneToMany(mappedBy = "vehiculo")
+    private List<Gasto> gastos;
+	
+	@OneToMany(mappedBy = "vehiculo")
+    private List<DocumentoDigital> documentosDigitales;
+	
+	@OneToMany(mappedBy = "vehiculo")
+    private List<VehiculoRecordatorios> recordatorios;
 	
 	
 	public String getDominio() {
@@ -230,6 +245,30 @@ public class Vehiculo implements Serializable {
 
 	public void setDescripcionVehiculo(String descripcionVehiculo) {
 		this.descripcionVehiculo = descripcionVehiculo;
+	}
+
+	public List<Gasto> getGastos() {
+		return gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
+
+	public List<DocumentoDigital> getDocumentosDigitales() {
+		return documentosDigitales;
+	}
+
+	public void setDocumentosDigitales(List<DocumentoDigital> documentosDigitales) {
+		this.documentosDigitales = documentosDigitales;
+	}
+
+	public List<VehiculoRecordatorios> getRecordatorios() {
+		return recordatorios;
+	}
+
+	public void setRecordatorios(List<VehiculoRecordatorios> recordatorios) {
+		this.recordatorios = recordatorios;
 	}
 	
 }
