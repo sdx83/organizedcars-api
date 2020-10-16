@@ -63,7 +63,7 @@ public class Vehiculo implements Serializable {
 	@Column(nullable=true,length=20)
 	private String carroceria;
 	
-	@Column(nullable=true,scale = 3, precision = 2)
+	@Column(nullable=true,scale = 2, precision = 8)
 	private BigDecimal peso;
 	
 	@Column(nullable=true,length=20)

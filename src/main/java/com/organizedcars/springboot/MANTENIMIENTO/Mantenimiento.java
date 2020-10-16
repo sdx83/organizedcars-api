@@ -57,7 +57,7 @@ public class Mantenimiento implements Serializable {
 	@Column(nullable=false,length=20)
 	private String garantia;
 	
-	@Column(nullable=false,scale = 5, precision = 2)
+	@Column(nullable=false,scale = 2, precision = 8)
 	private BigDecimal presupuesto;
 	
 	@Column(nullable=false)

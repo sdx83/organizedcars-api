@@ -32,7 +32,7 @@ public class Gasto implements Serializable  {
 	@Column(nullable=false,length=30)
 	private String descripcion;
 	
-	@Column(nullable=false,scale = 5, precision = 2)
+	@Column(nullable=false,scale = 2, precision = 8)
 	private BigDecimal precio;
 
 	public Vehiculo getVehiculo() {
