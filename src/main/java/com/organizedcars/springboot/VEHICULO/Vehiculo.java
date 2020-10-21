@@ -8,16 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
 import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
-import com.organizedcars.springboot.MARCA.Marca;
-import com.organizedcars.springboot.PAIS.Pais;
 import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorios;
 
 
@@ -35,13 +31,14 @@ public class Vehiculo implements Serializable {
 	@Column(name="dominio", nullable=false, length=10, unique=true)
 	private String dominio;
 	
-	@ManyToOne
-	@JoinColumn(name="id_marca",nullable=false)
-	private Marca marca;
+	@Column(nullable=false,length=50)
+	private String marca;
 	
-	@ManyToOne
-	@JoinColumn(name="id_pais",nullable=false)
-	private Pais pais;
+	@Column(nullable=false,length=50)
+	private String modelo;
+	
+	@Column(nullable=false,length=50)
+	private String pais;
 	
 	@Column(nullable=true,length=15)
 	private String marcaMotor;
@@ -240,6 +237,30 @@ public class Vehiculo implements Serializable {
 		this.descripcionVehiculo = descripcionVehiculo;
 	}
 
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+	
 	public List<Gasto> getGastos() {
 		return gastos;
 	}
@@ -262,22 +283,6 @@ public class Vehiculo implements Serializable {
 
 	public void setRecordatorios(List<VehiculoRecordatorios> recordatorios) {
 		this.recordatorios = recordatorios;
-	}
-
-	public Marca getMarca() {
-		return marca;
-	}
-
-	public void setMarca(Marca marca) {
-		this.marca = marca;
-	}
-
-	public Pais getPais() {
-		return pais;
-	}
-
-	public void setPais(Pais pais) {
-		this.pais = pais;
 	}
 
 	public List<Mantenimiento> getMantenimientos() {
