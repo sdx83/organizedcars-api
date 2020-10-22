@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculos;
+import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
 
 @Entity
 @Table(name="usuarios")
@@ -26,7 +26,7 @@ public class Usuario implements Serializable  {
 	private Long idUsuario;
 	
 	@OneToMany(mappedBy = "vehiculo")
-    private List<UsuarioVehiculos> vehiculos;
+    private List<UsuarioVehiculo> vehiculos;
 	
 	@Column(nullable=false,length=15)
 	private String nombre;
@@ -198,11 +198,11 @@ public class Usuario implements Serializable  {
 		this.pais = pais;
 	}
 
-	public List<UsuarioVehiculos> getVehiculos() {
+	public List<UsuarioVehiculo> getVehiculos() {
 		return vehiculos;
 	}
 
-	public void setVehiculos(List<UsuarioVehiculos> vehiculos) {
+	public void setVehiculos(List<UsuarioVehiculo> vehiculos) {
 		this.vehiculos = vehiculos;
 	}
 

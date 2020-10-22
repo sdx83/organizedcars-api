@@ -1,4 +1,4 @@
-package com.organizedcars.springboot.TIPOSMANTENIMIENTO;
+package com.organizedcars.springboot.SERVICIO;
 
 import java.io.Serializable;
 
@@ -10,15 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tipos_mantenimiento")
-public class TiposMantenimiento implements Serializable  {
+@Table(name="servicios")
+public class Servicio implements Serializable  {
 	
 	private static final long serialVersionUID = 4822987216150150600L;
 
 	@Id
-	@Column(name="id_tipo_Mantenimiento")
+	@Column(name="id_servicio")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idTipoMantenimiento;
+	private Long idServicio;
 	
 	@Column(nullable=false,length=20)
 	private String nombre;

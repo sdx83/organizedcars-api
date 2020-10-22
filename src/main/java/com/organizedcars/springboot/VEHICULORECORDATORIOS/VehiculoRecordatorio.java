@@ -17,7 +17,7 @@ import com.organizedcars.springboot.VEHICULO.Vehiculo;
 
 @Entity
 @Table(name="vehiculo_recordatorios")
-public class VehiculoRecordatorios implements Serializable {
+public class VehiculoRecordatorio implements Serializable {
 
 
 	private static final long serialVersionUID = 7287136163327418403L;

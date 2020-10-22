@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
 import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
-import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorios;
+import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
 
 
 @Entity
@@ -95,7 +95,7 @@ public class Vehiculo implements Serializable {
     private List<DocumentoDigital> documentosDigitales;
 	
 	@OneToMany(mappedBy = "vehiculo")
-    private List<VehiculoRecordatorios> recordatorios;
+    private List<VehiculoRecordatorio> recordatorios;
 	
 	@OneToMany(mappedBy = "vehiculo")
     private List<Mantenimiento> mantenimientos;
@@ -277,11 +277,11 @@ public class Vehiculo implements Serializable {
 		this.documentosDigitales = documentosDigitales;
 	}
 
-	public List<VehiculoRecordatorios> getRecordatorios() {
+	public List<VehiculoRecordatorio> getRecordatorios() {
 		return recordatorios;
 	}
 
-	public void setRecordatorios(List<VehiculoRecordatorios> recordatorios) {
+	public void setRecordatorios(List<VehiculoRecordatorio> recordatorios) {
 		this.recordatorios = recordatorios;
 	}
 

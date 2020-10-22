@@ -1,18 +1,23 @@
 package com.organizedcars.springboot.MANTENIMIENTO;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.organizedcars.springboot.TIPOSMANTENIMIENTO.TiposMantenimiento;
+import com.organizedcars.springboot.SERVICIO.Servicio;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 
 
@@ -32,10 +37,6 @@ public class Mantenimiento implements Serializable {
 	@JoinColumn(name="id_vehiculo",nullable=false)
 	private Vehiculo vehiculo;
 	
-	@ManyToOne
-	@JoinColumn(name="id_tipo_Mantenimiento",nullable=false)
-	private TiposMantenimiento tipoMantenimiento;
-
 	@Column(nullable=false,length=15)
 	private String ordenDeTrabajo;
 	
@@ -64,4 +65,103 @@ public class Mantenimiento implements Serializable {
 	@Lob
 	private byte[] adjunto;
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "mantenimientos_servicios",
+            joinColumns = {
+                    @JoinColumn(name = "id_mantenimiento", referencedColumnName = "id_mantenimiento",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "id_servicio", referencedColumnName = "id_servicio",
+                            nullable = false, updatable = false)})
+	
+    private List<Servicio> servicios;
+	
+
+	public Vehiculo getVehiculo() {
+		return vehiculo;
+	}
+
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
+	}
+
+	public String getOrdenDeTrabajo() {
+		return ordenDeTrabajo;
+	}
+
+	public void setOrdenDeTrabajo(String ordenDeTrabajo) {
+		this.ordenDeTrabajo = ordenDeTrabajo;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getHora() {
+		return hora;
+	}
+
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
+
+	public String getLugar() {
+		return lugar;
+	}
+
+	public void setLugar(String lugar) {
+		this.lugar = lugar;
+	}
+
+	public String getServicio() {
+		return servicio;
+	}
+
+	public void setServicio(String servicio) {
+		this.servicio = servicio;
+	}
+
+	public String getDetalleServicio() {
+		return detalleServicio;
+	}
+
+	public void setDetalleServicio(String detalleServicio) {
+		this.detalleServicio = detalleServicio;
+	}
+
+	public String getGarantia() {
+		return garantia;
+	}
+
+	public void setGarantia(String garantia) {
+		this.garantia = garantia;
+	}
+
+	public BigDecimal getPresupuesto() {
+		return presupuesto;
+	}
+
+	public void setPresupuesto(BigDecimal presupuesto) {
+		this.presupuesto = presupuesto;
+	}
+
+	public byte[] getAdjunto() {
+		return adjunto;
+	}
+
+	public void setAdjunto(byte[] adjunto) {
+		this.adjunto = adjunto;
+	}
+
+	public List<Servicio> getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(List<Servicio> servicios) {
+		this.servicios = servicios;
+	}
 }
