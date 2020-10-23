@@ -25,7 +25,7 @@ public class Servicio implements Serializable  {
 	
 	@Column(nullable=false,length=30)
 	private String descripcion;
-
+	
 	public String getNombre() {
 		return nombre;
 	}

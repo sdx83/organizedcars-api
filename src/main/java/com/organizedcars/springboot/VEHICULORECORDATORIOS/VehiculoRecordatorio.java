@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.organizedcars.springboot.RECORDATORIO.Recordatorio;
@@ -27,11 +27,11 @@ public class VehiculoRecordatorio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVehiculoRecordatorio;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_vehiculo", nullable = false)
 	private Vehiculo vehiculo;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_recordatorio", nullable = false)
 	private Recordatorio recordatorio;
 	
