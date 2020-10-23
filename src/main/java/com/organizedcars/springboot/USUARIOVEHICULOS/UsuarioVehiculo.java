@@ -51,6 +51,9 @@ public class UsuarioVehiculo implements Serializable {
 	@Transient
 	private String pais;
 	
+	@Transient
+	private String anio;
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -87,4 +90,8 @@ public class UsuarioVehiculo implements Serializable {
 		return this.getPais();
 	}
 
+	public String getAnio() {
+		return this.getAnio();
+	}
+	
 }
