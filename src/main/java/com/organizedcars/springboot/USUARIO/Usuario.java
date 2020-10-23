@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
 
 @Entity
@@ -24,9 +25,6 @@ public class Usuario implements Serializable  {
 	@Column(name="id_usuario")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
-	
-	@OneToMany(mappedBy = "vehiculo")
-    private List<UsuarioVehiculo> vehiculos;
 	
 	@Column(nullable=false,length=15)
 	private String nombre;
@@ -60,6 +58,10 @@ public class Usuario implements Serializable  {
 	
 	@Column(nullable=true, length=50)
 	private String provincia;
+	
+	@OneToMany(mappedBy = "vehiculo")
+	@JsonIgnore
+    private List<UsuarioVehiculo> vehiculos;
 	
 
 	public String getNombre() {

@@ -67,7 +67,7 @@ public class UsuarioController {
  		Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario.getUsuario().trim());
  	 		
  		if (usuarioExistente != null && usuarioExistente.isPresent()) {
- 			throw new Exception("Usuario existente");
+ 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario existente");
  		}
 
  		try {
@@ -75,6 +75,8 @@ public class UsuarioController {
  			Usuario nuevoUsuario = usuarioService.save(usuario);
  	 		
  			return ResponseEntity.ok(nuevoUsuario);
+ 		} catch (ResponseStatusException e) {
+ 	 		throw new Exception(e.getReason());
  	 	} catch (Exception e) {
  	 		throw new Exception("Error al crear el usuario");
  	 	}
