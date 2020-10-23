@@ -42,7 +42,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioExistente.setApellido(usuarioModificado.getApellido().trim());
 		usuarioExistente.setPassword(usuarioModificado.getPassword().trim());
 		usuarioExistente.setMail(usuarioModificado.getMail().trim());
-		usuarioExistente.setFecha_nacimiento(usuarioModificado.getFecha_nacimiento().trim());
 		usuarioExistente.setTelefono(usuarioModificado.getTelefono().trim());
 		
 		return this.save(usuarioExistente);

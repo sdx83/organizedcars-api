@@ -43,29 +43,17 @@ public class Usuario implements Serializable  {
 	@Column(nullable=false, length=30)
 	private String mail;
 	
-	@Column(nullable=false, length=8)
-	private String fecha_nacimiento;
-	
-	@Column(nullable=false, length=20)
+	@Column(nullable=true, length=20)
 	private String telefono;
 	
 	@Column(nullable = false)
 	private boolean enable;
 
-	@Column(nullable=false, length=5)
-	private String tipoDocumento;
-	
-	@Column(nullable=false, length=15)
+	@Column(nullable=true, length=15)
 	private String nroDocumento;
 	
-	@Column(nullable=false, length=50)
-	private String calle;
-	
-	@Column(nullable=false, length=50)
-	private String nroCalle;
-	
-	@Column(nullable=false, length=50)
-	private String codigoPostal;
+	@Column(nullable=false, length=100)
+	private String direccion;
 	
 	@Column(nullable=false, length=50)
 	private String localidad;
@@ -73,10 +61,7 @@ public class Usuario implements Serializable  {
 	@Column(nullable=false, length=50)
 	private String provincia;
 	
-	@Column(nullable=false, length=50)
-	private String pais;
-	
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -117,14 +102,6 @@ public class Usuario implements Serializable  {
 		this.mail = mail;
 	}
 	
-	public String getFecha_nacimiento() {
-		return fecha_nacimiento;
-	}
-
-	public void setFecha_nacimiento(String fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
-	}
-	
 	public String getTelefono() {
 		return telefono;
 	}
@@ -141,36 +118,12 @@ public class Usuario implements Serializable  {
 		this.enable = enable;
 	}
 	
-	public String getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
-
 	public String getNroDocumento() {
 		return nroDocumento;
 	}
 
 	public void setNroDocumento(String nroDocumento) {
 		this.nroDocumento = nroDocumento;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public String getCodigoPostal() {
-		return codigoPostal;
-	}
-
-	public void setCodigoPostal(String codigoPostal) {
-		this.codigoPostal = codigoPostal;
 	}
 
 	public String getLocalidad() {
@@ -189,14 +142,6 @@ public class Usuario implements Serializable  {
 		this.provincia = provincia;
 	}
 
-	public String getPais() {
-		return pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
-
 	public List<UsuarioVehiculo> getVehiculos() {
 		return vehiculos;
 	}
@@ -205,20 +150,20 @@ public class Usuario implements Serializable  {
 		this.vehiculos = vehiculos;
 	}
 
-	public String getNroCalle() {
-		return nroCalle;
-	}
-
-	public void setNroCalle(String nroCalle) {
-		this.nroCalle = nroCalle;
-	}
-
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 }
