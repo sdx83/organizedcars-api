@@ -23,27 +23,36 @@ public class UsuarioController {
    	// GET: http://localhost:8080/Usuarios/user/pass
  	@RequestMapping(value="/{usuario}/{pass}")
 	public ResponseEntity<Usuario> getUsuarioByUserAndPass(@PathVariable("usuario") String user,@PathVariable("pass") String pass) throws Exception{		
- 		Optional<Usuario> usuario = null;
  		
-		usuario = usuarioService.findByUsuarioAndPassword(user, pass);
+ 		try {
+ 			Optional<Usuario> usuario = null;
+ 			usuario = usuarioService.findByUsuarioAndPassword(user, pass);
 
- 		if(usuario.isPresent())
- 			return ResponseEntity.ok(usuario.get());
- 		
- 		else 
- 			throw new Exception("usuario y/o password incorrectos");
+ 			if(usuario.isPresent()) {
+ 	 			return ResponseEntity.ok(usuario.get());
+ 	 		}else { 
+ 	 			throw new Exception("Usuario y/o Password incorrectos");
+ 	 		}
+		} catch (Exception e) {
+			throw new Exception("Error en login");
+		}
 	}
  	
     //GET: http://localhost:8080/Usuarios/1
   	@RequestMapping(value="/{idUsuario}")
- 	public ResponseEntity<Usuario> getUsuarioByID(@PathVariable("idUsuario") Long id){		
- 		Optional<Usuario> usuario = usuarioService.findById(id);
- 		if(usuario.isPresent()) {
- 			return ResponseEntity.ok(usuario.get());
- 		}
- 		else {
- 			return ResponseEntity.noContent().build();
- 		}	
+ 	public ResponseEntity<Usuario> getUsuarioByID(@PathVariable("idUsuario") Long id) throws Exception{	
+  		
+  		try {
+  			Optional<Usuario> usuario = usuarioService.findById(id);
+  	 		if(usuario.isPresent()) {
+  	 			return ResponseEntity.ok(usuario.get());
+  	 		}
+  	 		else {
+  	 			return ResponseEntity.noContent().build();
+  	 		}
+		} catch (Exception e) {
+			throw new Exception("Error al obtener el usuario");
+		}
  	}
   	
  	
@@ -52,32 +61,38 @@ public class UsuarioController {
  	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) throws Exception {
 
  		Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario.getUsuario().trim());
- 		
+ 	 		
  		if (usuarioExistente != null && usuarioExistente.isPresent()) {
  			throw new Exception("Usuario existente");
  		}
 
- 		UsuarioHelper.validarUsuario(usuario, AccionUsuario.ALTA);
- 		Usuario nuevoUsuario = usuarioService.save(usuario);
- 		
- 		return ResponseEntity.ok(nuevoUsuario);
+ 		try {
+ 			UsuarioHelper.validarUsuario(usuario, AccionUsuario.ALTA);
+ 			Usuario nuevoUsuario = usuarioService.save(usuario);
+ 	 		
+ 			return ResponseEntity.ok(nuevoUsuario);
+ 	 	} catch (Exception e) {
+ 	 		throw new Exception("Error al crear el usuario");
+ 	 	}
  	}
  	  	
      //PUT: http://localhost:8080/Usuarios/1
   	 @RequestMapping(value = "/{idUsuario}", method = RequestMethod.PUT)
-     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("idUsuario") long idUsuario, @RequestBody Usuario nuevoUsuario) throws Exception {
+     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("idUsuario") long idUsuario,
+    		 															@RequestBody Usuario nuevoUsuario) throws Exception {
   		
-  		 Optional<Usuario> usuarioExistente = usuarioService.findById(idUsuario);
+  		Optional<Usuario> usuarioExistente = usuarioService.findById(idUsuario);
+  		if (!usuarioExistente.isPresent()) {
+  			throw new Exception("Usuario no encontrado");
+  		}
   		
-  		if (usuarioExistente != null && usuarioExistente.isPresent()) {
-
-			UsuarioHelper.validarUsuario(nuevoUsuario, AccionUsuario.MODIFICACION);
+  		try {
+  			UsuarioHelper.validarUsuario(nuevoUsuario, AccionUsuario.MODIFICACION);
 			Usuario usuario = usuarioService.update(usuarioExistente.get(), nuevoUsuario);
 			return ResponseEntity.ok(usuario);
-		} else {
-			throw new Exception("Usuario no encontrado");
+		} catch (Exception e) {
+			throw new Exception("Error al actualizar el usuario");
 		}
-
      }
   	 
     // PUT: http://localhost:8080/Usuarios/Eliminar/1
@@ -86,25 +101,15 @@ public class UsuarioController {
 
  		Optional<Usuario> usuario = usuarioService.findById(idUsuario);
 
- 		if (usuario != null && usuario.isPresent()) {
+ 		if (!usuario.isPresent()) {
+ 			throw new Exception("Usuario no encontrado");
+ 		}
+ 		
+ 		try {
  			Usuario usuarioEliminado = usuarioService.delete(usuario.get());
  			return ResponseEntity.ok(usuarioEliminado);
- 		} else {
- 			throw new Exception("Usuario no encontrado");
- 		}
- 	}
- 	
- // PUT: http://localhost:8080/Usuarios/Habilitar/1
- 	@RequestMapping(value = "/Habilitar/{idUsuario}", method = RequestMethod.PUT)
- 	public ResponseEntity<Usuario> habilitarUsuario(@PathVariable("idUsuario") long idUsuario) throws Exception {
-
- 		Optional<Usuario> usuario = usuarioService.findById(idUsuario);
-
- 		if (usuario != null && usuario.isPresent()) {
- 			Usuario usuarioHabilitado = usuarioService.activate(usuario.get());
- 			return ResponseEntity.ok(usuarioHabilitado);
- 		} else {
- 			throw new Exception("Usuario no encontrado");
- 		}
+		} catch (Exception e) {
+			throw new Exception("Error al eliminar el usuario");
+		}
  	}
 }
