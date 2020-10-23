@@ -34,10 +34,10 @@ public class Mantenimiento implements Serializable {
 	private Long idMantenimiento;
 	
 	@ManyToOne
-	@JoinColumn(name="id_vehiculo",nullable=false)
+	@JoinColumn(name="id_vehiculo", nullable=false)
 	private Vehiculo vehiculo;
 	
-	@Column(nullable=false,length=15)
+	@Column(nullable=false,length=15, unique=true)
 	private String ordenDeTrabajo;
 	
 	@Column(nullable=true,length=8)
