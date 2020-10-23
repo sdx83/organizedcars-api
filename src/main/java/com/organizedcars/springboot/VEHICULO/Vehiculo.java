@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -88,18 +89,17 @@ public class Vehiculo implements Serializable {
 	@Column(nullable=true,length=255)
 	private String descripcionVehiculo;
 	
-	@OneToMany(mappedBy = "vehiculo")
+	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Gasto> gastos;
 	
-	@OneToMany(mappedBy = "vehiculo")
+	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
     private List<DocumentoDigital> documentosDigitales;
 	
-	@OneToMany(mappedBy = "vehiculo")
+	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
     private List<VehiculoRecordatorio> recordatorios;
 	
-	@OneToMany(mappedBy = "vehiculo")
+	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Mantenimiento> mantenimientos;
-	
 	
 	public String getDominio() {
 		return dominio;
