@@ -35,8 +35,8 @@ public class VehiculoServiceImpl implements VehiculoService {
 		return vehiculoDAO.findAll();
 	}
 	
-	public ResponseEntity<Void> deleteByID(Long pacienteID) {
-		vehiculoDAO.deleteById(pacienteID);
+	public ResponseEntity<Void> deleteByID(Long idVehiculo) {
+		vehiculoDAO.deleteById(idVehiculo);
 		return ResponseEntity.ok(null);
 	}
 }

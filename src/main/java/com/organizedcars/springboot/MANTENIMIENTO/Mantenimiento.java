@@ -164,4 +164,12 @@ public class Mantenimiento implements Serializable {
 	public void setServicios(List<Servicio> servicios) {
 		this.servicios = servicios;
 	}
+
+	public Long getIdMantenimiento() {
+		return idMantenimiento;
+	}
+
+	public void setIdMantenimiento(Long idMantenimiento) {
+		this.idMantenimiento = idMantenimiento;
+	}
 }

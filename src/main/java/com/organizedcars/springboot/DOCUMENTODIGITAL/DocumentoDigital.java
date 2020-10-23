@@ -60,4 +60,12 @@ public class DocumentoDigital implements Serializable  {
 		this.adjunto = adjunto;
 	}
 
+	public Long getIdDocumentoDigital() {
+		return idDocumentoDigital;
+	}
+
+	public void setIdDocumentoDigital(Long idDocumentoDigital) {
+		this.idDocumentoDigital = idDocumentoDigital;
+	}
+
 }

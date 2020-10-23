@@ -59,4 +59,12 @@ public class Gasto implements Serializable  {
 		this.precio = precio;
 	}
 
+	public Long getIdGasto() {
+		return idGasto;
+	}
+
+	public void setIdGasto(Long idGasto) {
+		this.idGasto = idGasto;
+	}
+
 }

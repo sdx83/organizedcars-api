@@ -47,14 +47,22 @@ public class VehiculoController {
 	}
 	
 	// DELETE: http://localhost:1317/Vehiculos/1
-	@DeleteMapping(value="/{pacienteID}")
-		public ResponseEntity<Void> deleteVehiculo(@PathVariable("vehiculoID") Long id) throws Exception{
+	@DeleteMapping(value="/{dominio}")
+		public ResponseEntity<Void> deleteVehiculo(@PathVariable("dominio") String dominio) throws Exception{
+		
+		Optional<Vehiculo> vehiculo;
 		
 		try {
-			vehiculoService.deleteByID(id);
-			return ResponseEntity.ok(null);
+			vehiculo = vehiculoService.findByDominio(dominio);
+			
+			if(vehiculo.isPresent()) {
+				vehiculoService.deleteByID(vehiculo.get().getIdVehiculo());
+				return ResponseEntity.ok(null);
+			}else {
+				throw new Exception("Error al eliminar el vehículo");
+			}
 		} catch (Exception e) {
-			throw new Exception("Error al elimnar el vehículo");
+			throw new Exception("Error al eliminar el vehículo");
 		}
 	}
 }

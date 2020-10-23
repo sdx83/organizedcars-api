@@ -41,4 +41,12 @@ public class Servicio implements Serializable  {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	public Long getIdServicio() {
+		return idServicio;
+	}
+
+	public void setIdServicio(Long idServicio) {
+		this.idServicio = idServicio;
+	}
 }

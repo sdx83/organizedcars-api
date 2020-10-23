@@ -44,4 +44,12 @@ public class Recordatorio implements Serializable  {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	public Long getIdRecordatorio() {
+		return idRecordatorio;
+	}
+
+	public void setIdRecordatorio(Long idRecordatorio) {
+		this.idRecordatorio = idRecordatorio;
+	}
 }

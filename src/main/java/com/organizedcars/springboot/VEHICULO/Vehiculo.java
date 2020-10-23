@@ -292,5 +292,13 @@ public class Vehiculo implements Serializable {
 	public void setMantenimientos(List<Mantenimiento> mantenimientos) {
 		this.mantenimientos = mantenimientos;
 	}
+
+	public Long getIdVehiculo() {
+		return idVehiculo;
+	}
+
+	public void setIdVehiculo(Long idVehiculo) {
+		this.idVehiculo = idVehiculo;
+	}
 	
 }
