@@ -49,16 +49,16 @@ public class Usuario implements Serializable  {
 	@Column(nullable = false)
 	private boolean enable;
 
-	@Column(nullable=true, length=15)
+	@Column(nullable=false, length=15)
 	private String nroDocumento;
 	
-	@Column(nullable=false, length=100)
+	@Column(nullable=true, length=100)
 	private String direccion;
 	
-	@Column(nullable=false, length=50)
+	@Column(nullable=true, length=50)
 	private String localidad;
 	
-	@Column(nullable=false, length=50)
+	@Column(nullable=true, length=50)
 	private String provincia;
 	
 

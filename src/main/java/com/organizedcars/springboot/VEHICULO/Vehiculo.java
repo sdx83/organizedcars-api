@@ -62,7 +62,7 @@ public class Vehiculo implements Serializable {
 	@Column(nullable=false,length=4)
 	private String anioModelo;
 	
-	@Column(nullable=false, length=8)
+	@Column(nullable=true, length=8)
 	private String fechaAdquisicion;
 	
 	@Column(nullable=true,length=20)
@@ -76,9 +76,6 @@ public class Vehiculo implements Serializable {
 	
 	@Column(nullable=true, length=8)
 	private String vtoOblea;
-	
-	@Column(nullable=true,length=50)
-	private String usuarioVehicuclo;
 	
 	@Column(nullable=true,length=50)
 	private String ciaSeguro;
@@ -203,14 +200,6 @@ public class Vehiculo implements Serializable {
 
 	public void setVtoOblea(String vtoOblea) {
 		this.vtoOblea = vtoOblea;
-	}
-
-	public String getUsuarioVehicuclo() {
-		return usuarioVehicuclo;
-	}
-
-	public void setUsuarioVehicuclo(String usuarioVehicuclo) {
-		this.usuarioVehicuclo = usuarioVehicuclo;
 	}
 
 	public String getCiaSeguro() {

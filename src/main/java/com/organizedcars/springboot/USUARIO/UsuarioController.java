@@ -2,6 +2,7 @@ package com.organizedcars.springboot.USUARIO;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.organizedcars.springboot.VALIDACIONES.UsuarioHelper;
 
@@ -25,16 +27,18 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> getUsuarioByUserAndPass(@PathVariable("usuario") String user,@PathVariable("pass") String pass) throws Exception{		
  		
  		try {
- 			Optional<Usuario> usuario = null;
+ 			Optional<Usuario> usuario;
  			usuario = usuarioService.findByUsuarioAndPassword(user, pass);
 
  			if(usuario.isPresent()) {
  	 			return ResponseEntity.ok(usuario.get());
  	 		}else { 
- 	 			throw new Exception("Usuario y/o Password incorrectos");
+ 	 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario y/o Password incorrectos");
  	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new Exception(e.getReason());
 		} catch (Exception e) {
-			throw new Exception("Error en login");
+			throw new Exception("Error inesperado");
 		}
 	}
  	
