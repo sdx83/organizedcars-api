@@ -1,6 +1,5 @@
 package com.organizedcars.springboot.VALIDACIONES;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -16,7 +15,6 @@ public class UsuarioHelper {
 
 		String rg_length = ".{8,15}";
 		String rg_email = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-		String rg_fecha = "\\d{8}";
 		String rg_tel = "^[0-9]+$";
 		
 		//Validaciones de nombre y apellido
@@ -62,21 +60,7 @@ public class UsuarioHelper {
 		
 		if( usuario.getTelefono().trim().length() < 8 || usuario.getTelefono().trim().length() > 20)
 			throw new Exception("El teléfono debe contener entre 8 y 20 caracteres sin guiones u otro caracter");	
-		
-		//Validaciones fecha
-		if( !Pattern.matches(rg_fecha, usuario.getFecha_nacimiento()))
-			throw new Exception("La fecha de nacimiento tiene un formato inválido");
-		
-		if( Pattern.matches(rg_fecha, usuario.getFecha_nacimiento())) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-			format.setLenient(false);
-			Date date = new Date();
-			try {
-				date = format.parse(usuario.getFecha_nacimiento());
-			} catch (ParseException e) {
-				throw new Exception("La fecha de nacimiento es inválida");
-			}
-		}
+	
 	}
 	
 	public static String convertirFechaAFormatoJapones(Date fecha) {
