@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
 import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
@@ -87,16 +88,20 @@ public class Vehiculo implements Serializable {
 	private String descripcionVehiculo;
 	
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@JsonIgnore
     private List<Gasto> gastos;
 	
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<DocumentoDigital> documentosDigitales;
+	@JsonIgnore
+	private List<DocumentoDigital> documentosDigitales;
 	
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<VehiculoRecordatorio> recordatorios;
+	@JsonIgnore
+	private List<VehiculoRecordatorio> recordatorios;
 	
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Mantenimiento> mantenimientos;
+	@JsonIgnore
+	private List<Mantenimiento> mantenimientos;
 	
 	public String getDominio() {
 		return dominio;

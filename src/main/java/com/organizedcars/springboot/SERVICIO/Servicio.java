@@ -20,11 +20,8 @@ public class Servicio implements Serializable  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idServicio;
 	
-	@Column(nullable=false,length=20)
+	@Column(nullable=false,length=50)
 	private String nombre;
-	
-	@Column(nullable=false,length=30)
-	private String descripcion;
 	
 	public String getNombre() {
 		return nombre;
@@ -32,14 +29,6 @@ public class Servicio implements Serializable  {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 
 	public Long getIdServicio() {

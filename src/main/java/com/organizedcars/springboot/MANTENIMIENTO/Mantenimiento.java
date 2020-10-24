@@ -37,10 +37,10 @@ public class Mantenimiento implements Serializable {
 	@JoinColumn(name="id_vehiculo", nullable=false)
 	private Vehiculo vehiculo;
 	
-	@Column(nullable=false,length=15, unique=true)
+	@Column(nullable=true,length=15)
 	private String ordenDeTrabajo;
 	
-	@Column(nullable=true,length=8)
+	@Column(nullable=false,length=8)
 	private String fecha;
 	
 	@Column(nullable=true,length=5)
@@ -55,17 +55,17 @@ public class Mantenimiento implements Serializable {
 	@Column(nullable=false,length=255)
 	private String detalleServicio;
 	
-	@Column(nullable=false,length=20)
+	@Column(nullable=true,length=20)
 	private String garantia;
 	
 	@Column(nullable=false,scale = 2, precision = 8)
 	private BigDecimal presupuesto;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	@Lob
 	private byte[] adjunto;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "mantenimientos_servicios",
             joinColumns = {
                     @JoinColumn(name = "id_mantenimiento", referencedColumnName = "id_mantenimiento",

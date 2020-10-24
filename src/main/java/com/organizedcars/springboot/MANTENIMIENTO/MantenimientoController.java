@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
@@ -24,17 +26,18 @@ public class MantenimientoController {
     @Autowired
 	private MantenimientoServiceImpl mantenimientoService;
 	
-	// GET: http://localhost:1317/Mantenimientos/{dominio}
- 	@RequestMapping(value="/{dominio}")
+    
+	// GET: http://localhost:1317/Mantenimientos/Vehiculos/{dominio}
+ 	@RequestMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
- 		Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
- 			
- 		if (!vehiculo.isPresent()) {
- 			throw new Exception("Vehículo no encontrado");
- 		}
- 		
  		try {
+ 			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
+ 			
+ 			if (!vehiculo.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehículo no encontrado");
+ 			}
+ 		
  			List<Mantenimiento> mantenimientos = mantenimientoService.findByVehiculo(vehiculo.get());
 				
  			if(mantenimientos != null && mantenimientos.size() > 0) {
@@ -43,11 +46,32 @@ public class MantenimientoController {
  			else {
  	 			return ResponseEntity.noContent().build();
  	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al obtener los mantenimientos");
 		}
 	}
  	
+	// GET: http://localhost:1317/Mantenimientos/{id}
+ 	@RequestMapping(value="/{idMantenimiento}")
+	public ResponseEntity<Mantenimiento> obtenerMantenimientoPorID(@PathVariable("idMantenimiento") Long id) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Mantenimiento> mantenimiento = mantenimientoService.findById(id);
+
+ 			if (mantenimiento.isPresent()) {
+ 				return ResponseEntity.ok(mantenimiento.get());
+ 			}else {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el mantenimiento");
+ 			}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener el mantenimiento");
+		}
+	}
+
  	// POST: http://localhost:1317/Mantenimientos
 	@PostMapping
 	public ResponseEntity<Mantenimiento> altaMantenimiento(@RequestBody Mantenimiento mantenimiento) throws Exception{
@@ -59,7 +83,7 @@ public class MantenimientoController {
 			throw new Exception("Error al cargar el mantenimiento");
 		}
 	}
-	
+
 	// DELETE: http://localhost:1317/Mantenimientos/1
 	@DeleteMapping(value="/{ot}")
 	public ResponseEntity<Void> deleteMantenimiento(@PathVariable("ordenDeTrabajo") String ot) throws Exception{
