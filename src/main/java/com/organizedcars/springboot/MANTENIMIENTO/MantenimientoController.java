@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.organizedcars.springboot.USUARIO.Usuario;
+import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 
@@ -20,6 +22,9 @@ import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 @RequestMapping("/Mantenimientos")
 public class MantenimientoController {	
 	
+    @Autowired
+	private UsuarioServiceImpl usuarioService;
+    
     @Autowired
 	private VehiculoServiceImpl vehiculoService;
     
@@ -52,6 +57,33 @@ public class MantenimientoController {
 			throw new Exception("Error al obtener los mantenimientos");
 		}
 	}
+ 	
+	// GET: http://localhost:1317/Mantenimientos/Usuarios/{usuario}
+ 	@RequestMapping(value="/Usuarios/{usuario}")
+	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorUsuario(@PathVariable("usuario") String nombreUsuario) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Usuario> usuario = usuarioService.findByUsuario(nombreUsuario);
+ 			
+ 			if (!usuario.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+ 			}
+ 		
+ 			List<Mantenimiento> mantenimientos = mantenimientoService.findByUsuario(usuario.get());
+ 			
+ 			if(mantenimientos != null && mantenimientos.size() > 0) {
+ 				return ResponseEntity.ok(mantenimientos);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener los mantenimientos");
+		}
+	}
+ 	
  	
 	// GET: http://localhost:1317/Mantenimientos/{id}
  	@RequestMapping(value="/{idMantenimiento}")

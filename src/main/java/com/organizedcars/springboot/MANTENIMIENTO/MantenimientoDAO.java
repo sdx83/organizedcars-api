@@ -12,5 +12,4 @@ public interface MantenimientoDAO extends JpaRepository<Mantenimiento, Long>  {
 	Optional<Mantenimiento> findByOrdenDeTrabajo(String ot);
 	
 	List<Mantenimiento> findByVehiculo(Vehiculo vehiculo);
-	
 }

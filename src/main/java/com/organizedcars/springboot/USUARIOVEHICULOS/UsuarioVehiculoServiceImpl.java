@@ -1,7 +1,6 @@
 package com.organizedcars.springboot.USUARIOVEHICULOS;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class UsuarioVehiculoServiceImpl implements UsuarioVehiculoService {
 	UsuarioVehiculoDAO usuarioVehiculoDAO;
 	
 	@Override
-	public Optional<List<UsuarioVehiculo>> findByUsuario(Usuario usuario) {
+	public List<UsuarioVehiculo> findByUsuario(Usuario usuario) {
 		return usuarioVehiculoDAO.findByUsuario(usuario);
 	}
 	

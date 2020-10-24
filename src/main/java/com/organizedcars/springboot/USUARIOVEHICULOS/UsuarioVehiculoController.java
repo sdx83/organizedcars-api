@@ -33,7 +33,7 @@ public class UsuarioVehiculoController {
  	 		usuario = usuarioService.findByUsuario(nombreUsuario);
 
  	 		if(usuario.isPresent()) {
- 	 			usuarioVehiculos = usuarioVehiculoService.findByUsuario(usuario.get()).get();
+ 	 			usuarioVehiculos = usuarioVehiculoService.findByUsuario(usuario.get());
  	 			
  	 			if (usuarioVehiculos != null && usuarioVehiculos.size() > 0) {
  	 				return ResponseEntity.ok(usuarioVehiculos);

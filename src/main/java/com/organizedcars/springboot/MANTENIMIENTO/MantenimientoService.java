@@ -3,6 +3,7 @@ package com.organizedcars.springboot.MANTENIMIENTO;
 import java.util.List;
 import java.util.Optional;
 
+import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 
 public interface MantenimientoService {
@@ -13,6 +14,7 @@ public interface MantenimientoService {
 	public Optional<Mantenimiento> findByOrdeDeTrabajo(String ot);
 	
 	public List<Mantenimiento> findByVehiculo(Vehiculo vehiculo);
-
+	
+	public List<Mantenimiento> findByUsuario(Usuario usuario);
 	
 }
