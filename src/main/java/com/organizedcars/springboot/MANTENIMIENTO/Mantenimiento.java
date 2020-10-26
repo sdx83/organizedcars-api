@@ -49,6 +49,9 @@ public class Mantenimiento implements Serializable {
 	@Column(nullable=false,length=50)
 	private String lugar;
 	
+	@Column(nullable=true,length=20)
+	private String nombreTaller;
+	
 	@Column(nullable=false,length=50)
 	private String servicio;
 	
@@ -171,5 +174,13 @@ public class Mantenimiento implements Serializable {
 
 	public void setIdMantenimiento(Long idMantenimiento) {
 		this.idMantenimiento = idMantenimiento;
+	}
+
+	public String getNombreTaller() {
+		return nombreTaller;
+	}
+
+	public void setNombreTaller(String nombreTaller) {
+		this.nombreTaller = nombreTaller;
 	}
 }
