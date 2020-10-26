@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,7 @@ public class MantenimientoController {
 	
     
 	// GET: http://localhost:1317/Mantenimientos/Vehiculos/{dominio}
- 	@RequestMapping(value="/Vehiculos/{dominio}")
+    @GetMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
  		try {
@@ -61,7 +62,7 @@ public class MantenimientoController {
 	}
  	
 	// GET: http://localhost:1317/Mantenimientos/Usuarios/{usuario}
- 	@RequestMapping(value="/Usuarios/{usuario}")
+    @GetMapping(value="/Usuarios/{usuario}")
 	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorUsuario(@PathVariable("usuario") String nombreUsuario) throws Exception{		
  		
  		try {
@@ -88,7 +89,7 @@ public class MantenimientoController {
  	
  	
 	// GET: http://localhost:1317/Mantenimientos/{id}
- 	@RequestMapping(value="/{idMantenimiento}")
+    @GetMapping(value="/{idMantenimiento}")
 	public ResponseEntity<Mantenimiento> obtenerMantenimientoPorID(@PathVariable("idMantenimiento") Long id) throws Exception{		
  		
  		try {

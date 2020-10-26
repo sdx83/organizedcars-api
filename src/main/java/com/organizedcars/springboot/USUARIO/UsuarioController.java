@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class UsuarioController {
 	private UsuarioServiceImpl usuarioService;
 	
    	// GET: http://localhost:8080/Usuarios/user/pass
- 	@RequestMapping(value="/{usuario}/{pass}")
+    @GetMapping(value="/{usuario}/{pass}")
 	public ResponseEntity<Usuario> getUsuarioByUserAndPass(@PathVariable("usuario") String user,@PathVariable("pass") String pass) throws Exception{		
  		
  		try {
@@ -45,7 +46,7 @@ public class UsuarioController {
 	}
  	
     //GET: http://localhost:8080/Usuarios/1
-  	@RequestMapping(value="/{idUsuario}")
+    @GetMapping(value="/{idUsuario}")
  	public ResponseEntity<Usuario> getUsuarioByID(@PathVariable("idUsuario") Long id) throws Exception{	
   		
   		try {
