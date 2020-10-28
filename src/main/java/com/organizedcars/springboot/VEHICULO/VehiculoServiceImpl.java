@@ -8,15 +8,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.organizedcars.springboot.USUARIO.Usuario;
+import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
+import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculoDAO;
+
 @Service
 @Transactional(readOnly = false)
 public class VehiculoServiceImpl implements VehiculoService {
 	
 	@Autowired
 	VehiculoDAO vehiculoDAO;
+	
+	@Autowired
+	UsuarioVehiculoDAO usuarioVehiculoDAO;
 
 	@Override
-	public Vehiculo save(Vehiculo vehiculo) {
+	@Transactional(rollbackFor = Exception.class, readOnly = false)
+	public Vehiculo save(Vehiculo vehiculo, Usuario usuario) throws Exception {
+		
+		
+		Vehiculo vehiculoGuardado =  vehiculoDAO.save(vehiculo);
+		
+		if(vehiculoGuardado != null) {
+			UsuarioVehiculo usuarioVehiculo = new UsuarioVehiculo();
+			usuarioVehiculo.setUsuario(usuario);
+			usuarioVehiculo.setVehiculo(vehiculoGuardado);
+			usuarioVehiculoDAO.save(usuarioVehiculo);
+		}else {
+			throw new Exception("Error al guardar el vehículo");
+		}
 		return vehiculoDAO.save(vehiculo);
 	}
 

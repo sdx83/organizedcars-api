@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
 import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
+import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
 import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
 
 
@@ -102,6 +103,10 @@ public class Vehiculo implements Serializable {
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	@JsonIgnore
 	private List<Mantenimiento> mantenimientos;
+	
+	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@JsonIgnore
+	private List<UsuarioVehiculo> usuarios;
 	
 	public String getDominio() {
 		return dominio;
@@ -293,6 +298,14 @@ public class Vehiculo implements Serializable {
 
 	public void setIdVehiculo(Long idVehiculo) {
 		this.idVehiculo = idVehiculo;
+	}
+
+	public List<UsuarioVehiculo> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<UsuarioVehiculo> usuarios) {
+		this.usuarios = usuarios;
 	}
 	
 }

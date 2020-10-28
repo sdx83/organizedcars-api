@@ -2,6 +2,7 @@ package com.organizedcars.springboot.VEHICULO;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.organizedcars.springboot.USUARIO.Usuario;
+import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/Vehiculos")
@@ -19,6 +24,9 @@ public class VehiculoController {
 	
     @Autowired
 	private VehiculoServiceImpl vehiculoService;
+    
+    @Autowired
+	private UsuarioServiceImpl usuarioService;
 	
 	// GET: http://localhost:1317/Vehiculos/{dominio}
     @GetMapping(value="/{dominio}")
@@ -37,13 +45,27 @@ public class VehiculoController {
 		}
 	}
  	
- 	// POST: http://localhost:1317/Vehiculos
-	@PostMapping
-	public ResponseEntity<Vehiculo> altaVehiculo(@RequestBody Vehiculo vehiculo) throws Exception{
+ 	// POST: http://localhost:1317/Vehiculos/user
+	@PostMapping(value="/{usuario}")
+	public ResponseEntity<Vehiculo> altaVehiculo(@PathVariable("usuario") String user,
+															@RequestBody Vehiculo vehiculo) throws Exception{
 		
 		try {
-			Vehiculo nuevoVehiculo = vehiculoService.save(vehiculo);
-			return ResponseEntity.ok(nuevoVehiculo);	
+			Optional<Usuario> usuario = usuarioService.findByUsuario(user);
+			Optional<Vehiculo> v = vehiculoService.findByDominio(vehiculo.getDominio().trim());
+			
+			if (v.isPresent()) {
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Ya existe un vehículo con el mismo dominio");
+			}
+			
+			if(usuario.isPresent()) {
+				Vehiculo nuevoVehiculo = vehiculoService.save(vehiculo, usuario.get());
+				return ResponseEntity.ok(nuevoVehiculo);	
+			}else {
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Usuario inexistente");
+			}
+		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error el cargar el vehículo");
 		}
