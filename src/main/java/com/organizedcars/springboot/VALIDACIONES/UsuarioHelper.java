@@ -29,13 +29,16 @@ public class UsuarioHelper {
 		if(usuario.getApellido().trim().equals(""))
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El apellido del usuario no puede estar vacío");
 		
+		if(usuario.getApellido().trim().length() > 15)
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El apellido del usuario no puede contener más de 15 caracteres");
+		
 	
 		if (accion.equals(AccionUsuario.ALTA)) {
 			if(usuario.getUsuario().trim().equals(""))
 				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El usuario no puede estar vacío");
 			
 			if(usuario.getUsuario().trim().length() > 10)
-				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El usuario no puede contener más de 10 caracteres");
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El usuario no puede contener más de 20 caracteres");
 		}
 		
 		//Validaciones password	

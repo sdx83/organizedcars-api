@@ -43,6 +43,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioExistente.setPassword(usuarioModificado.getPassword().trim());
 		usuarioExistente.setMail(usuarioModificado.getMail().trim());
 		usuarioExistente.setTelefono(usuarioModificado.getTelefono().trim());
+		usuarioExistente.setNroDocumento(usuarioModificado.getNroDocumento().trim());
+		usuarioExistente.setDireccion(usuarioModificado.getDireccion().trim());
+		usuarioExistente.setLocalidad(usuarioModificado.getLocalidad().trim());
+		usuarioExistente.setProvincia(usuarioModificado.getProvincia().trim());
 		
 		return this.save(usuarioExistente);
 	}
@@ -52,9 +56,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		usuario.setEnable(false);
 		
-		Usuario user = usuarioDAO.save(usuario);
-
-		return user;
+		return usuarioDAO.save(usuario);
 	}
 	
 	@Override

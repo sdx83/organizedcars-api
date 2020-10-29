@@ -33,7 +33,7 @@ public class UsuarioController {
  			Optional<Usuario> usuario;
  			usuario = usuarioService.findByUsuarioAndPassword(user, pass);
 
- 			if(usuario.isPresent()) {
+ 			if(usuario.isPresent() && usuario.get().isEnable()) {
  	 			return ResponseEntity.ok(usuario.get());
  	 		}else { 
  	 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario y/o Password incorrectos");
@@ -67,17 +67,14 @@ public class UsuarioController {
  	@PostMapping
  	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) throws Exception {
 
- 		Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario.getUsuario().trim());
- 	 		
- 		if (usuarioExistente != null && usuarioExistente.isPresent()) {
- 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario existente");
- 		}
-
  		try {
+ 			Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario.getUsuario().trim());
+ 			if (usuarioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario existente");
+ 			}
  			UsuarioHelper.validarUsuario(usuario, AccionUsuario.ALTA);
- 			Usuario nuevoUsuario = usuarioService.save(usuario);
- 	 		
- 			return ResponseEntity.ok(nuevoUsuario);
+ 			 	 		
+ 			return ResponseEntity.ok(usuarioService.save(usuario));
  		} catch (ResponseStatusException e) {
  	 		throw new Exception(e.getReason());
  	 	} catch (Exception e) {
@@ -86,37 +83,37 @@ public class UsuarioController {
  	}
  	  	
      //PUT: http://localhost:8080/Usuarios/1
-  	 @RequestMapping(value = "/{idUsuario}", method = RequestMethod.PUT)
-     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("idUsuario") long idUsuario,
+  	 @RequestMapping(value = "/{usuario}", method = RequestMethod.PUT)
+     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("usuario") String usuario,
     		 															@RequestBody Usuario nuevoUsuario) throws Exception {
   		
-  		Optional<Usuario> usuarioExistente = usuarioService.findById(idUsuario);
-  		if (!usuarioExistente.isPresent()) {
-  			throw new Exception("Usuario no encontrado");
-  		}
-  		
   		try {
+  			Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario.trim());
+  			if (!usuarioExistente.isPresent()) {
+  				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario no encontrado");
+  			}
   			UsuarioHelper.validarUsuario(nuevoUsuario, AccionUsuario.MODIFICACION);
-			Usuario usuario = usuarioService.update(usuarioExistente.get(), nuevoUsuario);
-			return ResponseEntity.ok(usuario);
+			return ResponseEntity.ok(usuarioService.update(usuarioExistente.get(), nuevoUsuario));
+  		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al actualizar el usuario");
 		}
      }
   	 
     // PUT: http://localhost:8080/Usuarios/Eliminar/1
- 	@RequestMapping(value = "/Eliminar/{idUsuario}", method = RequestMethod.PUT)
- 	public ResponseEntity<Usuario> eliminarUsuario(@PathVariable("idUsuario") long idUsuario) throws Exception {
+ 	@RequestMapping(value = "/Eliminar/{usuario}", method = RequestMethod.PUT)
+ 	public ResponseEntity<Usuario> eliminarUsuario(@PathVariable("usuario") String user) throws Exception {
 
- 		Optional<Usuario> usuario = usuarioService.findById(idUsuario);
-
- 		if (!usuario.isPresent()) {
- 			throw new Exception("Usuario no encontrado");
- 		}
  		
  		try {
- 			Usuario usuarioEliminado = usuarioService.delete(usuario.get());
- 			return ResponseEntity.ok(usuarioEliminado);
+ 			Optional<Usuario> usuario = usuarioService.findByUsuario(user);
+ 			if (!usuario.isPresent()) {
+ 				throw new Exception("Usuario no encontrado");
+ 			}
+ 			return ResponseEntity.ok(usuarioService.delete(usuario.get()));
+		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al eliminar el usuario");
 		}
