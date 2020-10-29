@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -90,4 +91,22 @@ public class VehiculoController {
 			throw new Exception("Error al eliminar el vehículo");
 		}
 	}
+	
+    //PUT: http://localhost:8080/Vehiculos/1
+ 	@RequestMapping(value = "/{dominio}", method = RequestMethod.PUT)
+    public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable("dominio") String dominio,
+   		 															@RequestBody Vehiculo nuevoVehiculo) throws Exception {
+ 		
+ 		try {
+ 			Optional<Vehiculo> vehiculoExistente = vehiculoService.findByDominio(dominio.trim());
+ 			if (!vehiculoExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Vehiculo no encontrado");
+ 			}
+ 			return ResponseEntity.ok(vehiculoService.update(vehiculoExistente.get(), nuevoVehiculo));
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
+ 		} catch (Exception e) {
+			throw new Exception("Error al actualizar el vehiculo");
+		}
+    }
 }

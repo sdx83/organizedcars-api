@@ -11,5 +11,5 @@ public interface VehiculoService {
 	
 	public Optional<Vehiculo> findByDominio(String dominio);
 
-	
+	public Vehiculo update(Vehiculo vehiculoExistente, Vehiculo vehiculoModificado);
 }

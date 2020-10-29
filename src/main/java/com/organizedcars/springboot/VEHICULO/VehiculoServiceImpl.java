@@ -59,4 +59,29 @@ public class VehiculoServiceImpl implements VehiculoService {
 		vehiculoDAO.deleteById(idVehiculo);
 		return ResponseEntity.ok(null);
 	}
+	
+	@Override
+	public Vehiculo update(Vehiculo vehiculoExistente, Vehiculo vehiculoModificado) {
+		
+		vehiculoExistente.setMarca(vehiculoModificado.getMarca().trim());
+		vehiculoExistente.setModelo(vehiculoModificado.getModelo().trim());
+		vehiculoExistente.setPais(vehiculoModificado.getPais().trim());
+		vehiculoExistente.setMarcaMotor(vehiculoModificado.getMarcaMotor().trim());
+		vehiculoExistente.setTipo(vehiculoModificado.getTipo().trim());
+		vehiculoExistente.setNroMotor(vehiculoModificado.getNroMotor().trim());
+		vehiculoExistente.setMarcaChasis(vehiculoModificado.getMarcaChasis().trim());
+		vehiculoExistente.setNroChasis(vehiculoModificado.getNroChasis().trim());
+		vehiculoExistente.setAnioFabricacion(vehiculoModificado.getAnioFabricacion().trim());
+		vehiculoExistente.setAnioModelo(vehiculoModificado.getAnioModelo().trim());
+		vehiculoExistente.setFechaAdquisicion(vehiculoModificado.getFechaAdquisicion().trim());
+		vehiculoExistente.setCarroceria(vehiculoModificado.getCarroceria().trim());
+		vehiculoExistente.setPeso(vehiculoModificado.getPeso());
+		vehiculoExistente.setNroOblea(vehiculoModificado.getNroOblea().trim());
+		vehiculoExistente.setVtoOblea(vehiculoModificado.getVtoOblea().trim());
+		vehiculoExistente.setCiaSeguro(vehiculoModificado.getCiaSeguro().trim());
+		vehiculoExistente.setCoberturaSeguro(vehiculoModificado.getCoberturaSeguro().trim());
+		vehiculoExistente.setDescripcionVehiculo(vehiculoModificado.getDescripcionVehiculo().trim());
+		
+		return vehiculoDAO.save(vehiculoExistente);
+	}
 }
