@@ -120,19 +120,19 @@ public class MantenimientoController {
 	}
 
 	// DELETE: http://localhost:1317/Mantenimientos/1
-	@DeleteMapping(value="/{ot}")
-	public ResponseEntity<Void> deleteMantenimiento(@PathVariable("ordenDeTrabajo") String ot) throws Exception{
+	@DeleteMapping(value="/{id}")
+	public ResponseEntity<Void> deleteMantenimiento(@PathVariable("id") Long id) throws Exception{
 		
 		Optional<Mantenimiento> mantenimiento;
 		
-		mantenimiento = mantenimientoService.findByOrdeDeTrabajo(ot);
+		mantenimiento = mantenimientoService.findById(id);
 		
 		if(!mantenimiento.isPresent()) {
 			throw new Exception("No se encontró el mantenimiento");
 		}
 		
 		try {
-			mantenimientoService.deleteByID(mantenimiento.get().getIdMantenimiento());
+			mantenimientoService.deleteByID(id);
 			return ResponseEntity.ok(null);
 		} catch (Exception e) {
 			throw new Exception("Error al eliminar el mantenimiento");

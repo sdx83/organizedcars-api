@@ -32,11 +32,6 @@ public class MantenimientoServiceImpl implements MantenimientoService {
 	}
 
 	@Override
-	public Optional<Mantenimiento> findByOrdeDeTrabajo(String ot) {
-		return mantenimientoDAO.findByOrdenDeTrabajo(ot);
-	}
-	
-	@Override
 	public List<Mantenimiento> findByVehiculo(Vehiculo vehiculo) {
 		return mantenimientoDAO.findByVehiculo(vehiculo);
 	}
