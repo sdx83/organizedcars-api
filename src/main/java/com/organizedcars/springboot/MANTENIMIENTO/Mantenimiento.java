@@ -37,9 +37,6 @@ public class Mantenimiento implements Serializable {
 	@JoinColumn(name="id_vehiculo", nullable=false)
 	private Vehiculo vehiculo;
 	
-	@Column(nullable=true,length=15)
-	private String ordenDeTrabajo;
-	
 	@Column(nullable=false,length=8)
 	private String fecha;
 	
@@ -86,14 +83,6 @@ public class Mantenimiento implements Serializable {
 
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
-	}
-
-	public String getOrdenDeTrabajo() {
-		return ordenDeTrabajo;
-	}
-
-	public void setOrdenDeTrabajo(String ordenDeTrabajo) {
-		this.ordenDeTrabajo = ordenDeTrabajo;
 	}
 
 	public String getFecha() {
