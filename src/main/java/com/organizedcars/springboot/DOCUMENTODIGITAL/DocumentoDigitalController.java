@@ -1,4 +1,5 @@
 package com.organizedcars.springboot.DOCUMENTODIGITAL;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.organizedcars.springboot.VEHICULO.Vehiculo;
+import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
+
 
 @RestController
 @RequestMapping("/DocumentosDigitales")
@@ -22,6 +26,9 @@ public class DocumentoDigitalController {
 	
     @Autowired
 	private DocumentoDigitalServiceImpl documentoDigitalService;
+    
+    @Autowired
+	private VehiculoServiceImpl vehiculoService;
 	
     //GET: http://localhost:8080/DocumentosDigitales/1
     @GetMapping(value="/{idDD}")
@@ -72,4 +79,30 @@ public class DocumentoDigitalController {
 			throw new Exception("Error al eliminar el Documento Digital");
 		}
  	}
+ 	
+ // GET: http://localhost:1317/DocumentosDigitales/Vehiculos/{dominio}
+    @GetMapping(value="/DocumentosDigitales/Vehiculos/{dominio}")
+	public ResponseEntity<List<DocumentoDigital>> obtenerDDsPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
+ 			
+ 			if (!vehiculo.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehículo no encontrado");
+ 			}
+ 		
+ 			List<DocumentoDigital> documentos = documentoDigitalService.findByVehiculo(vehiculo.get());
+				
+ 			if(documentos != null && documentos.size() > 0) {
+ 				return ResponseEntity.ok(documentos);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener los documentos");
+		}
+	}
 }
