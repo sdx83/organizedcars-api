@@ -34,7 +34,7 @@ public class VehiculoController {
     @Autowired
 	private UsuarioVehiculoServiceImpl usuarioVehiculoService;
 	
-	// GET: http://localhost:1317/Vehiculos/{dominio}
+	// GET: http://localhost:8080/Vehiculos/{dominio}
     @GetMapping(value="/{dominio}")
 	public ResponseEntity<Vehiculo> getVehiculoByDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
@@ -51,7 +51,7 @@ public class VehiculoController {
 		}
 	}
  	
- 	// POST: http://localhost:1317/Vehiculos/user
+ 	// POST: http://localhost:8080/Vehiculos/user
 	@PostMapping(value="/{usuario}")
 	public ResponseEntity<Vehiculo> altaVehiculo(@PathVariable("usuario") String user,
 															@RequestBody Vehiculo vehiculo) throws Exception{
@@ -82,7 +82,7 @@ public class VehiculoController {
 		}
 	}
 	
-	// DELETE: http://localhost:1317/Vehiculos/1
+	// DELETE: http://localhost:8080/Vehiculos/1
 	@DeleteMapping(value="/{dominio}")
 		public ResponseEntity<Void> deleteVehiculo(@PathVariable("dominio") String dominio) throws Exception{
 		

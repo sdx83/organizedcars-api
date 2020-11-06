@@ -81,7 +81,7 @@ public class DocumentoDigitalController {
 		}
  	}
  	
- // GET: http://localhost:1317/DocumentosDigitales/Vehiculos/{dominio}
+ // GET: http://localhost:8080/DocumentosDigitales/Vehiculos/{dominio}
     @GetMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<DocumentoDigital>> obtenerDDsPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		

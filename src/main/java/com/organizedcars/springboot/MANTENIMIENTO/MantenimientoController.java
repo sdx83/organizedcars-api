@@ -35,7 +35,7 @@ public class MantenimientoController {
 	private MantenimientoServiceImpl mantenimientoService;
 	
     
-	// GET: http://localhost:1317/Mantenimientos/Vehiculos/{dominio}
+	// GET: http://localhost:8080/Mantenimientos/Vehiculos/{dominio}
     @GetMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
@@ -61,7 +61,7 @@ public class MantenimientoController {
 		}
 	}
  	
-	// GET: http://localhost:1317/Mantenimientos/Usuarios/{usuario}
+	// GET: http://localhost:8080/Mantenimientos/Usuarios/{usuario}
     @GetMapping(value="/Usuarios/{usuario}")
 	public ResponseEntity<List<Mantenimiento>> obtenerMantenimientosPorUsuario(@PathVariable("usuario") String nombreUsuario) throws Exception{		
  		
@@ -88,7 +88,7 @@ public class MantenimientoController {
 	}
  	
  	
-	// GET: http://localhost:1317/Mantenimientos/{id}
+	// GET: http://localhost:8080/Mantenimientos/{id}
     @GetMapping(value="/{idMantenimiento}")
 	public ResponseEntity<Mantenimiento> obtenerMantenimientoPorID(@PathVariable("idMantenimiento") Long id) throws Exception{		
  		
@@ -107,7 +107,7 @@ public class MantenimientoController {
 		}
 	}
 
- 	// POST: http://localhost:1317/Mantenimientos
+ 	// POST: http://localhost:8080/Mantenimientos
 	@PostMapping
 	public ResponseEntity<Mantenimiento> altaMantenimiento(@RequestBody Mantenimiento mantenimiento) throws Exception{
 		
@@ -119,24 +119,22 @@ public class MantenimientoController {
 		}
 	}
 
-	// DELETE: http://localhost:1317/Mantenimientos/1
+	// DELETE: http://localhost:8080/Mantenimientos/1
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> deleteMantenimiento(@PathVariable("id") Long id) throws Exception{
 		
-		Optional<Mantenimiento> mantenimiento;
-		
-		mantenimiento = mantenimientoService.findById(id);
-		
-		if(!mantenimiento.isPresent()) {
-			throw new Exception("No se encontró el mantenimiento");
-		}
-		
 		try {
+			Optional<Mantenimiento> mantenimiento;
+			mantenimiento = mantenimientoService.findById(id);
+			if(!mantenimiento.isPresent()) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No se encontró el mantenimiento");
+			}
 			mantenimientoService.deleteByID(id);
 			return ResponseEntity.ok(null);
+		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al eliminar el mantenimiento");
 		}
-		
 	}
 }
