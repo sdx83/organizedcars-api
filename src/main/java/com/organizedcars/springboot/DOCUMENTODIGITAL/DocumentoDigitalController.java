@@ -63,12 +63,13 @@ public class DocumentoDigitalController {
  	  	
     // DELETE: http://localhost:8080/DocumentosDigitales/1
  	@RequestMapping(value = "/{idDD}", method = RequestMethod.DELETE)
- 	public ResponseEntity<DocumentoDigital> eliminarDD(@PathVariable("idDD") Long idDD) throws Exception {
+ 	public ResponseEntity<Void> eliminarDD(@PathVariable("idDD") Long idDD) throws Exception {
 
  		try {
  			Optional<DocumentoDigital> ddEliminar = documentoDigitalService.findById(idDD);
  			if(ddEliminar.isPresent()) {
- 				return ResponseEntity.ok(documentoDigitalService.delete(ddEliminar.get()));
+ 				documentoDigitalService.delete(ddEliminar.get());
+ 				return ResponseEntity.ok(null);
   	 		}
   	 		else {
   	 			return ResponseEntity.noContent().build();
@@ -81,7 +82,7 @@ public class DocumentoDigitalController {
  	}
  	
  // GET: http://localhost:1317/DocumentosDigitales/Vehiculos/{dominio}
-    @GetMapping(value="/DocumentosDigitales/Vehiculos/{dominio}")
+    @GetMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<DocumentoDigital>> obtenerDDsPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
  		try {

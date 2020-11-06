@@ -8,7 +8,7 @@ public interface DocumentoDigitalService {
 	
 	public DocumentoDigital save(DocumentoDigital documentoDigital);
 	
-	public DocumentoDigital delete(DocumentoDigital documentoDigital);
+	public Void delete(DocumentoDigital documentoDigital);
 	
 	public List<DocumentoDigital> findByVehiculo(Vehiculo vehiculo);
 	

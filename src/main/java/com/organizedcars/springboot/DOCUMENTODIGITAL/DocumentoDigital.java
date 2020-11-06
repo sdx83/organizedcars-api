@@ -32,7 +32,7 @@ public class DocumentoDigital implements Serializable  {
 	@Column(nullable=false,length=30)
 	private String descripcion;
 	
-	@Column(nullable=false)
+	@Column(nullable=false,columnDefinition="clob")
 	@Lob
 	private byte[] adjunto;
 

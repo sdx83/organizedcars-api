@@ -28,12 +28,13 @@ public class DocumentoDigitalServiceImpl implements DocumentoDigitalService {
 	}
 	
 	@Override
-	public DocumentoDigital delete(DocumentoDigital documentoDigital) {
-
-		return documentoDigitalDAO.save(documentoDigital);
+	public Void delete(DocumentoDigital documentoDigital) {
+		documentoDigitalDAO.delete(documentoDigital);
+		return null;
 	}
 	
-	@Override
+
+	@Transactional(readOnly = true)
 	public List<DocumentoDigital> findByVehiculo(Vehiculo vehiculo) {
 		return documentoDigitalDAO.findByVehiculo(vehiculo);
 	}
