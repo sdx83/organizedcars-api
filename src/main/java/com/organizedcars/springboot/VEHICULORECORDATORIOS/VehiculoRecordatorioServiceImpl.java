@@ -46,8 +46,8 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 	}
 	
 	@Override
-	public Void delete(VehiculoRecordatorio recordatorio) {
-		vehiculoRecordatorioDAO.delete(recordatorio);
+	public Void delete(VehiculoRecordatorio vrecordatorio) {
+		vehiculoRecordatorioDAO.delete(vrecordatorio);
 		return null;
 	}
 

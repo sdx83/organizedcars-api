@@ -11,6 +11,4 @@ public interface VehiculoRecordatorioService {
 	public Void delete(VehiculoRecordatorio recordatorio);
 	
 	public List<VehiculoRecordatorio> findByVehiculo(Vehiculo vehiculo);
-	
-	
 }

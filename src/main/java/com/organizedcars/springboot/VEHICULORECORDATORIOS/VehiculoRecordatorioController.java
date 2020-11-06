@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.organizedcars.springboot.RECORDATORIO.Recordatorio;
-import com.organizedcars.springboot.RECORDATORIO.RecordatorioServiceImpl;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 
@@ -27,9 +25,6 @@ public class VehiculoRecordatorioController {
 	
     @Autowired
 	private VehiculoRecordatorioServiceImpl vehiculoRecordatorioService;
-    
-    @Autowired
-	private RecordatorioServiceImpl recordatorioService;
     
     @Autowired
 	private VehiculoServiceImpl vehiculoService;
@@ -75,13 +70,13 @@ public class VehiculoRecordatorioController {
  	}
  	  	
     // DELETE: http://localhost:8080/VehiculoRecordatorios/1
- 	@RequestMapping(value = "/{idRecordatorio}", method = RequestMethod.DELETE)
- 	public ResponseEntity<Void> eliminarRecordatorio(@PathVariable("idRecordatorio") Long id) throws Exception {
+ 	@RequestMapping(value = "/{idVehiculoRecordatorio}", method = RequestMethod.DELETE)
+ 	public ResponseEntity<Void> eliminarVehiculoRecordatorio(@PathVariable("idVehiculoRecordatorio") Long id) throws Exception {
 
  		try {
- 			Optional<Recordatorio> recordatorioEliminar = recordatorioService.findById(id);
- 			if(recordatorioEliminar.isPresent()) {
- 				recordatorioService.delete(recordatorioEliminar.get());
+ 			Optional<VehiculoRecordatorio> vrecordatorioEliminar = vehiculoRecordatorioService.findById(id);
+ 			if(vrecordatorioEliminar.isPresent()) {
+ 				vehiculoRecordatorioService.delete(vrecordatorioEliminar.get());
  				return ResponseEntity.ok(null);
   	 		}
   	 		else {
@@ -90,7 +85,7 @@ public class VehiculoRecordatorioController {
 		} catch (ResponseStatusException e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
 		} catch (Exception e) {
-			throw new Exception("Error al eliminar el recordatorio");
+			throw new Exception("Error al eliminar el recordatorio del vehiculo");
 		}
  	}
  	
