@@ -30,9 +30,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		Vehiculo vehiculoGuardado =  vehiculoDAO.save(vehiculo);
 		
 		if(vehiculoGuardado != null) {
-			UsuarioVehiculo usuarioVehiculo = new UsuarioVehiculo();
-			usuarioVehiculo.setUsuario(usuario);
-			usuarioVehiculo.setVehiculo(vehiculoGuardado);
+			UsuarioVehiculo usuarioVehiculo = new UsuarioVehiculo(usuario,vehiculoGuardado);
 			usuarioVehiculoDAO.save(usuarioVehiculo);
 		}else {
 			throw new Exception("Error al guardar el vehículo");

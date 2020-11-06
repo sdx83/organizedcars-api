@@ -101,4 +101,14 @@ public class UsuarioVehiculo implements Serializable {
 		return this.getVehiculo().getAnioFabricacion();
 	}
 	
+	public UsuarioVehiculo(Usuario usuario, Vehiculo vehiculo) {
+		super();
+		this.usuario = usuario;
+		this.vehiculo = vehiculo;
+	}
+
+	public UsuarioVehiculo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }
