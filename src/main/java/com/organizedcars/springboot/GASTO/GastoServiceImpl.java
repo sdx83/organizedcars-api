@@ -28,9 +28,9 @@ public class GastoServiceImpl implements GastoService {
 	}
 	
 	@Override
-	public Gasto delete(Gasto gasto) {
-
-		return gastoDAO.save(gasto);
+	public Void delete(Gasto gasto) {
+		gastoDAO.delete(gasto);
+		return null;
 	}
 
 	@Override

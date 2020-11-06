@@ -63,12 +63,13 @@ public class GastoController {
  	  	
     // DELETE: http://localhost:8080/Gastos/1
  	@RequestMapping(value = "/{idGasto}", method = RequestMethod.DELETE)
- 	public ResponseEntity<Gasto> eliminarGasto(@PathVariable("idGasto") Long idGasto) throws Exception {
+ 	public ResponseEntity<Void> eliminarGasto(@PathVariable("idGasto") Long idGasto) throws Exception {
 
  		try {
  			Optional<Gasto> gastoEliminar = gastoService.findById(idGasto);
  			if(gastoEliminar.isPresent()) {
- 				return ResponseEntity.ok(gastoService.delete(gastoEliminar.get()));
+ 				gastoService.delete(gastoEliminar.get());
+ 				return ResponseEntity.ok(null);
   	 		}
   	 		else {
   	 			return ResponseEntity.noContent().build();
@@ -80,8 +81,8 @@ public class GastoController {
 		}
  	}
  	
- 	// GET: http://localhost:1317/Gastos/Vehiculos/{dominio}
-    @GetMapping(value="/Gastos/Vehiculos/{dominio}")
+ 	// GET: http://localhost:8080/Gastos/Vehiculos/{dominio}
+    @GetMapping(value="/Vehiculos/{dominio}")
 	public ResponseEntity<List<Gasto>> obtenerGastosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
  		try {

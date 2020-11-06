@@ -8,7 +8,7 @@ public interface GastoService {
 	
 	public Gasto save(Gasto gasto);
 	
-	public Gasto delete(Gasto gasto);
+	public Void delete(Gasto gasto);
 	
 	public List<Gasto> findByVehiculo(Vehiculo vehiculo);
 	
