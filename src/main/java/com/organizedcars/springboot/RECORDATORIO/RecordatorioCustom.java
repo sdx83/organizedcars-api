@@ -1,10 +1,8 @@
-package com.organizedcars.springboot.RECORDATORIOCUSTOM;
+package com.organizedcars.springboot.RECORDATORIO;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.organizedcars.springboot.RECORDATORIO.Recordatorio;
 
 @Entity
 @Table(name="recordatorios_custom")
