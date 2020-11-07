@@ -35,7 +35,7 @@ public class VehiculoRecordatorio implements Serializable {
 	@JoinColumn(name = "id_recordatorio", nullable = false)
 	private Recordatorio recordatorio;
 	
-	@Column(nullable=false, length=8)
+	@Column(nullable=true, length=8)
 	private String fechaRecordatorio;
 
 	@Column(nullable=false)
@@ -72,6 +72,18 @@ public class VehiculoRecordatorio implements Serializable {
 
 	public void setFechaRecordatorio(String fechaRecordatorio) {
 		this.fechaRecordatorio = fechaRecordatorio;
+	}
+
+	public VehiculoRecordatorio() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public VehiculoRecordatorio(Vehiculo vehiculo, Recordatorio recordatorio, boolean habilitado) {
+		super();
+		this.vehiculo = vehiculo;
+		this.recordatorio = recordatorio;
+		this.habilitado = habilitado;
 	}
 
 }

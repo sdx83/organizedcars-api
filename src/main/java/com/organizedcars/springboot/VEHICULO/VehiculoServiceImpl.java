@@ -8,9 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.organizedcars.springboot.RECORDATORIO.RecordatorioDefault;
+import com.organizedcars.springboot.RECORDATORIO.RecordatorioDefaultDAO;
 import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
 import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculoDAO;
+import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
+import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorioDAO;
 
 @Service
 @Transactional(readOnly = false)
@@ -21,17 +25,27 @@ public class VehiculoServiceImpl implements VehiculoService {
 	
 	@Autowired
 	UsuarioVehiculoDAO usuarioVehiculoDAO;
+	
+	@Autowired
+	RecordatorioDefaultDAO recordatorioDefaultDAO;
+	
+	@Autowired
+	VehiculoRecordatorioDAO vehiculoRecordatorioDAO;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class, readOnly = false)
 	public Vehiculo save(Vehiculo vehiculo, Usuario usuario) throws Exception {
-		
 		
 		Vehiculo vehiculoGuardado =  vehiculoDAO.save(vehiculo);
 		
 		if(vehiculoGuardado != null) {
 			UsuarioVehiculo usuarioVehiculo = new UsuarioVehiculo(usuario,vehiculoGuardado);
 			usuarioVehiculoDAO.save(usuarioVehiculo);
+			
+			List<RecordatorioDefault> recordatorios = recordatorioDefaultDAO.findAll();
+			for (RecordatorioDefault recordatorioDefault : recordatorios) {
+				vehiculoRecordatorioDAO.save(new VehiculoRecordatorio(vehiculoGuardado, recordatorioDefault, true));
+			}
 		}else {
 			throw new Exception("Error al guardar el vehículo");
 		}
