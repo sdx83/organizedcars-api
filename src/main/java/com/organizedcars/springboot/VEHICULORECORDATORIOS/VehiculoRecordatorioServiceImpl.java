@@ -22,6 +22,9 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 	@Autowired
 	RecordatorioDAO recordatorioDAO;
 	
+	@Autowired
+	RecordatorioDAO recordatorioCustomDAO;
+	
 	@Transactional(readOnly = true)
 	public Optional<VehiculoRecordatorio> findById(Long id) {
 		return vehiculoRecordatorioDAO.findById(id);
@@ -45,9 +48,10 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 		return vehiculoRecordatorioDAO.save(vr);
 	}
 	
-	@Override
+	@Transactional(rollbackFor = Exception.class, readOnly = false)
 	public Void delete(VehiculoRecordatorio vrecordatorio) {
 		vehiculoRecordatorioDAO.delete(vrecordatorio);
+		recordatorioCustomDAO.deleteById(vrecordatorio.getRecordatorio().getIdRecordatorio());
 		return null;
 	}
 

@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +30,7 @@ public class VehiculoRecordatorioController {
 	
     //GET: http://localhost:8080/VehiculoRecordatorios/1
     @GetMapping(value="/{idRecordatorio}")
- 	public ResponseEntity<VehiculoRecordatorio> getRecordatorioByID(@PathVariable("idrecordatorio") Long id) throws Exception{	
+ 	public ResponseEntity<VehiculoRecordatorio> getVehiculoRecordatorioByID(@PathVariable("idRecordatorio") Long id) throws Exception{	
   		
   		try {
   			Optional<VehiculoRecordatorio> vr = vehiculoRecordatorioService.findById(id);
@@ -47,9 +46,9 @@ public class VehiculoRecordatorioController {
  	}
   	
  	
-  	// POST: http://localhost:8080/VehiculoRecordatorios
- 	@PostMapping
- 	public ResponseEntity<VehiculoRecordatorio> crearRecordatorioCustom(@PathVariable("nombreRecordatorio") String nombreRecordatorio,
+  	// POST: http://localhost:8080/VehiculoRecordatorios/{nombrerecordatorio}/{fecharecordatorio}/{dominio}
+    @RequestMapping(value = "/{nombreRecordatorio}/{fechaRecordatorio}/{dominio}", method = RequestMethod.POST)
+ 	public ResponseEntity<VehiculoRecordatorio> crearVehiculoRecordatorioCustom(@PathVariable("nombreRecordatorio") String nombreRecordatorio,
  																			@PathVariable("fechaRecordatorio") String fechaRecordatorio,
  																				@PathVariable("dominio") String dominio) throws Exception {
 
@@ -91,7 +90,7 @@ public class VehiculoRecordatorioController {
  	
  	// GET: http://localhost:8080/VehiculoRecordatorios/Vehiculos/{dominio}
     @GetMapping(value="/Vehiculos/{dominio}")
-	public ResponseEntity<List<VehiculoRecordatorio>> obtenerRecordatoriosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
+	public ResponseEntity<List<VehiculoRecordatorio>> obtenerVehiculoRecordatoriosPorDominio(@PathVariable("dominio") String dominio) throws Exception{		
  		
  		try {
  			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
