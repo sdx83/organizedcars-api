@@ -59,4 +59,16 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 	public List<VehiculoRecordatorio> findByVehiculo(Vehiculo vehiculo) {
 		return vehiculoRecordatorioDAO.findByVehiculo(vehiculo);
 	}
+	
+	@Override
+	public VehiculoRecordatorio update(VehiculoRecordatorio vehiculoRecordatorioExistente, VehiculoRecordatorio vehiculoRecordatorioModificado) {
+		vehiculoRecordatorioExistente.setFechaRecordatorio(vehiculoRecordatorioModificado.getFechaRecordatorio().trim());
+		return vehiculoRecordatorioDAO.save(vehiculoRecordatorioExistente);
+	}
+	
+	@Override
+	public VehiculoRecordatorio updateEstado(VehiculoRecordatorio vehiculoRecordatorio, Boolean habilitado) {
+		vehiculoRecordatorio.setHabilitado(habilitado);
+		return vehiculoRecordatorioDAO.save(vehiculoRecordatorio);
+	}
 }

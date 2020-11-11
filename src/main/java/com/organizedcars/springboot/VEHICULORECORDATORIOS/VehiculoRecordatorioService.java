@@ -11,4 +11,8 @@ public interface VehiculoRecordatorioService {
 	public Void delete(VehiculoRecordatorio recordatorio);
 	
 	public List<VehiculoRecordatorio> findByVehiculo(Vehiculo vehiculo);
+	
+	public VehiculoRecordatorio update(VehiculoRecordatorio vehiculoRecordatorioExistente, VehiculoRecordatorio vehiculoRecordatorioModificado);
+	
+	public VehiculoRecordatorio updateEstado(VehiculoRecordatorio vehiculoRecordatorioExistente, Boolean habilitado);
 }
