@@ -41,6 +41,13 @@ public class VehiculoRecordatorio implements Serializable {
 	@Column(nullable=false)
 	private boolean habilitado;	
 	
+	public Long getIdVehiculoRecordatorio() {
+		return idVehiculoRecordatorio;
+	}
+
+	public void setIdVehiculoRecordatorio(Long idVehiculoRecordatorio) {
+		this.idVehiculoRecordatorio = idVehiculoRecordatorio;
+	}
 	
 	public Vehiculo getVehiculo() {
 		return vehiculo;
@@ -85,5 +92,4 @@ public class VehiculoRecordatorio implements Serializable {
 		this.recordatorio = recordatorio;
 		this.habilitado = habilitado;
 	}
-
 }

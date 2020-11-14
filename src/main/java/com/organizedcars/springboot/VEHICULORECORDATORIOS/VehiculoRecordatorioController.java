@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,6 +88,43 @@ public class VehiculoRecordatorioController {
 			throw new Exception("Error al eliminar el recordatorio del vehiculo");
 		}
  	}
+ 	
+    //PUT: http://localhost:8080/VehiculoRecordatorios/1
+ 	@RequestMapping(value = "/{idVehiculoRecordatorio}", method = RequestMethod.PUT)
+    public ResponseEntity<VehiculoRecordatorio> actualizarVehiculoRecordatorio(@PathVariable("idVehiculoRecordatorio") Long id,
+   		 															@RequestBody VehiculoRecordatorio vehiculoRecordatorio) throws Exception {
+ 		
+ 		try {
+ 			Optional<VehiculoRecordatorio> vehiculoRecordatiorioExistente = vehiculoRecordatorioService.findById(id);
+ 			if (!vehiculoRecordatiorioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Recordatorio del vehículo no encontrado");
+ 			}
+ 			return ResponseEntity.ok(vehiculoRecordatorioService.update(vehiculoRecordatiorioExistente.get(), vehiculoRecordatorio));
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
+ 		} catch (Exception e) {
+			throw new Exception("Error al actualizar el recordatorio del vehiculo");
+		}
+    }
+ 	
+    //PUT: http://localhost:8080/VehiculoRecordatorios/1/habilitado/{true}
+ 	@RequestMapping(value = "/{idVehiculoRecordatorio}/habilitado/{estado}", method = RequestMethod.PUT)
+    public ResponseEntity<VehiculoRecordatorio> habilitarDeshabilitarVehiculoRecordatorio
+    														(@PathVariable("idVehiculoRecordatorio") Long id, 
+    																@PathVariable("estado") Boolean habilitado) throws Exception {
+ 		
+ 		try {
+ 			Optional<VehiculoRecordatorio> vehiculoRecordatiorioExistente = vehiculoRecordatorioService.findById(id);
+ 			if (!vehiculoRecordatiorioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Recordatorio del vehículo no encontrado");
+ 			}
+ 			return ResponseEntity.ok(vehiculoRecordatorioService.updateEstado(vehiculoRecordatiorioExistente.get(), habilitado));
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
+ 		} catch (Exception e) {
+			throw new Exception("Error al actualizar el estado del recordatorio del vehiculo");
+		}
+    }
  	
  	// GET: http://localhost:8080/VehiculoRecordatorios/Vehiculos/{dominio}
     @GetMapping(value="/Vehiculos/{dominio}")
