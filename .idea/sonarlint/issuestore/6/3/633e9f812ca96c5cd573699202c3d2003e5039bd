@@ -1,0 +1,9 @@
+
+S
+java:S1128"1Remove this unused import 'java.io.Serializable'.(èãîÂÿÿÿÿÿ8èßšÏÛ.
+i	java:S116"TRename this field "public_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µ›
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù¢´‰
+c	java:S100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜ÌÆâ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¶Ë¼Õûÿÿÿÿ
+h	java:S1000"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğçÓ—øÿÿÿÿ
+f	java:S117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜ÌÆâ

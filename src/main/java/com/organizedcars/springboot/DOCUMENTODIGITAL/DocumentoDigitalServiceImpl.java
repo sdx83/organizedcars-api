@@ -26,7 +26,9 @@ public class DocumentoDigitalServiceImpl implements DocumentoDigitalService {
 		
 		return documentoDigitalDAO.save(documentoDigital);
 	}
-	
+
+
+
 	@Override
 	public Void delete(DocumentoDigital documentoDigital) {
 		documentoDigitalDAO.delete(documentoDigital);
