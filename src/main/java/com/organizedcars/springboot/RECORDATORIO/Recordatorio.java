@@ -1,5 +1,7 @@
 package com.organizedcars.springboot.RECORDATORIO;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="recordatorios")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Data
 public class Recordatorio implements Serializable  {
 	
 	private static final long serialVersionUID = -5089927312293978906L;
@@ -29,27 +32,5 @@ public class Recordatorio implements Serializable  {
 	@Column(nullable=false,length=30)
 	private String descripcion;
 
-	public String getNombre() {
-		return nombre;
-	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public Long getIdRecordatorio() {
-		return idRecordatorio;
-	}
-
-	public void setIdRecordatorio(Long idRecordatorio) {
-		this.idRecordatorio = idRecordatorio;
-	}
 }

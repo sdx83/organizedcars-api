@@ -26,7 +26,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/DocumentosDigitales")
 @CrossOrigin(origins = "*")
-@PropertySource("classpath:application.properties")
+@PropertySource("application.properties")
 public class DocumentoDigitalController {	
 
 
