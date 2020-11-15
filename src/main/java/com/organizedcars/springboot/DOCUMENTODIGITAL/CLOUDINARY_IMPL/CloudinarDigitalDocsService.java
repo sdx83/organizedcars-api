@@ -21,6 +21,7 @@ public class CloudinarDigitalDocsService {
     public List<CloudinarDigitalDoc> getAllDocs(){
         return this.cloudinaryDigitalDocsDAO.findAll();
     }
+
     @Transactional(readOnly = true)
     public Optional<CloudinarDigitalDoc> getById(long idUsuario){
         return this.cloudinaryDigitalDocsDAO.findById(idUsuario);

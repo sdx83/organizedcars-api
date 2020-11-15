@@ -12,6 +12,7 @@ import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -48,11 +49,6 @@ public class DocumentoDigitalController {
 
 	@Autowired
 	private CloudinarDigitalDocsService cloudinarDigitalDocsService;
-
-	@Value("${api_secret}")
-	private String api_secret_cloudinary;
-
-
 
 	Cloudinary cloudinary=new Cloudinary(ObjectUtils.asMap(
 			"cloud_name","apisbackfranivan",

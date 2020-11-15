@@ -34,8 +34,7 @@ public class CloudinarDigitalDoc {
         this.public_id=public_id;
         this.descripcionArchivo=descripcionArchivo;
     }
-    //Lo defini como para que mapee todos los docs por usuario, y en la capa aplicativa o que toma el id
-    //del localStorage, o buscarlo por id, o directamente ponerle el id en la tabla.
+
 
     public String getFileUserName() {
         return fileUserName;
