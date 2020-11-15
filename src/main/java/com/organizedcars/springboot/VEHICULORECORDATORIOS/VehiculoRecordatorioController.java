@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.organizedcars.springboot.USUARIO.Usuario;
+import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 
@@ -28,6 +30,9 @@ public class VehiculoRecordatorioController {
     
     @Autowired
 	private VehiculoServiceImpl vehiculoService;
+    
+    @Autowired
+	private UsuarioServiceImpl usuarioService;
 	
     //GET: http://localhost:8080/VehiculoRecordatorios/1
     @GetMapping(value="/{idRecordatorio}")
@@ -149,6 +154,32 @@ public class VehiculoRecordatorioController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al obtener los recordatorios");
+		}
+	}
+    
+ // GET: http://localhost:8080/VehiculoRecordatorios/Recordatorios/{usuario}
+    @GetMapping(value="/Recordatorios/{usuario}")
+	public ResponseEntity<List<VehiculoRecordatorio>> obtenerNotificacionesPorUsuario(@PathVariable("usuario") String usuario) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario);
+ 			
+ 			if (!usuarioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+ 			}
+ 			
+ 			List<VehiculoRecordatorio> notificaciones = vehiculoRecordatorioService.enviarNotificaciones(usuarioExistente.get());
+ 			
+ 			if(notificaciones != null && notificaciones.size() > 0) {
+ 				return ResponseEntity.ok(notificaciones);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener las notificaciones");
 		}
 	}
 }
