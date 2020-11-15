@@ -18,5 +18,5 @@ public interface VehiculoRecordatorioService {
 	
 	public VehiculoRecordatorio updateEstado(VehiculoRecordatorio vehiculoRecordatorioExistente, Boolean habilitado);
 	
-	public List<VehiculoRecordatorio> enviarNotificaciones(Usuario usuario) throws ParseException, Exception;
+	public List<VehiculoRecordatorio> enviarNotificaciones(Usuario usuario, int diasAviso) throws ParseException, Exception;
 }

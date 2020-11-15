@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +25,9 @@ import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 @RequestMapping("/VehiculoRecordatorios")
 @CrossOrigin(origins = "*")
 public class VehiculoRecordatorioController {	
+	
+	@Value("${dias.aviso.recordatorio}")
+	private int diasAvisoRecordatorio;
 	
     @Autowired
 	private VehiculoRecordatorioServiceImpl vehiculoRecordatorioService;
@@ -168,7 +172,7 @@ public class VehiculoRecordatorioController {
  				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
  			}
  			
- 			List<VehiculoRecordatorio> notificaciones = vehiculoRecordatorioService.enviarNotificaciones(usuarioExistente.get());
+ 			List<VehiculoRecordatorio> notificaciones = vehiculoRecordatorioService.enviarNotificaciones(usuarioExistente.get(), diasAvisoRecordatorio);
  			
  			if(notificaciones != null && notificaciones.size() > 0) {
  				return ResponseEntity.ok(notificaciones);

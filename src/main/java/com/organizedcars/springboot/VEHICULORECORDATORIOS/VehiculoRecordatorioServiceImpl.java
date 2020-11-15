@@ -1,6 +1,5 @@
 package com.organizedcars.springboot.VEHICULORECORDATORIOS;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,7 +75,7 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 	}
 	
 	@Override
-	public List<VehiculoRecordatorio> enviarNotificaciones(Usuario usuario) throws Exception {
+	public List<VehiculoRecordatorio> enviarNotificaciones(Usuario usuario, int diasAviso) throws Exception {
 		
 		Date fechaActual = new Date();
 		Date fechaAdvertencia = new Date();
@@ -84,7 +83,7 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.setTime(fechaActual);
-		calendar.add(Calendar.DAY_OF_WEEK, -5);
+		calendar.add(Calendar.DAY_OF_WEEK, diasAviso * -1);
 		
 		fechaAdvertencia = calendar.getTime();
 		fechaAdvertenciaJapones = FechaHelper.convertirFechaAFormatoJapones(fechaAdvertencia);
