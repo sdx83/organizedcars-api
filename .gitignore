@@ -12,7 +12,3 @@
 target/classes/
 
 target/test-classes/com/organizedcars/test/
-
-.idea
-
-organizedcars-api.iml
