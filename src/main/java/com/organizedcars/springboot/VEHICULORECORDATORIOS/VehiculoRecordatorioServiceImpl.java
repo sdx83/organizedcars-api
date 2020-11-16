@@ -108,7 +108,8 @@ public class VehiculoRecordatorioServiceImpl implements VehiculoRecordatorioServ
 			Date fechaRecordatorio = new SimpleDateFormat("dd/MM/yyyy").parse(FechaHelper.convertirFechaAFormatoddMMyyyy(vehiculoRecordatorio.getFechaRecordatorio()));
 			vehiculoRecordatorio.setDiasRestantesVtoRecordatorio((int)TimeUnit.DAYS.convert(fechaRecordatorio.getTime() - fechaAdvertencia.getTime(), TimeUnit.MILLISECONDS));
 		}
-		MailRecordatorioHelper.enviarNotificaciones(vehiculosRecordatorios, usuario.getMail().trim());
+		MailRecordatorioHelper mailRecordatorioHelper=new MailRecordatorioHelper();
+		mailRecordatorioHelper.enviarNotificaciones(vehiculosRecordatorios, usuario.getMail().trim());
 		return vehiculosRecordatorios;
 	}
 	
