@@ -26,8 +26,8 @@ import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 @CrossOrigin(origins = "*")
 public class VehiculoRecordatorioController {	
 	
-	@Value("${dias.aviso.recordatorio}")
-	private int diasAvisoRecordatorio;
+
+	private int diasAvisoRecordatorio=5;
 	
     @Autowired
 	private VehiculoRecordatorioServiceImpl vehiculoRecordatorioService;
