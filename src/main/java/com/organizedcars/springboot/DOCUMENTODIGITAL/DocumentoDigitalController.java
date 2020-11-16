@@ -31,7 +31,7 @@ import java.util.*;
 public class DocumentoDigitalController {	
 
 
-	private static final Set<String> SET_FORMATOS=Set.of("jpg","xlsx","pdf","docx","jpeg");
+	private static final Set<String> SET_FORMATOS=null;//Set.of("jpg","xlsx","pdf","docx","jpeg");
 
 
 
