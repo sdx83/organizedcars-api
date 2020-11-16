@@ -1,14 +1,13 @@
 package com.organizedcars.springboot.RECORDATORIO;
 
-import java.sql.Date;
-import java.util.List;
-
 import com.organizedcars.springboot.RECORDATORIO.MAIL_DEVELOPMENT.EmailServiceImple;
 import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
-import org.apache.naming.factory.SendMailFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSendException;
+
+import java.sql.Date;
+import java.util.List;
 
 public class MailRecordatorioHelper {
 
@@ -27,6 +26,11 @@ public class MailRecordatorioHelper {
 	}
 
 	public  void enviarNotificaciones(List<VehiculoRecordatorio> recordatorios, String mail) throws Exception {
+		
+		//Prueba cloudinary
+		Environment environment = null;
+		String key = environment.getProperty("api_secret_cloudinary").toString();
+		
 		
 		for (VehiculoRecordatorio vehiculoRecordatorio : recordatorios) {
 			//TODO: rutina para enviar los mails correspondientes por cada recordatorio
