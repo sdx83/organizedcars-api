@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.organizedcars.springboot.RECORDATORIO.Recordatorio;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
@@ -40,6 +41,9 @@ public class VehiculoRecordatorio implements Serializable {
 
 	@Column(nullable=false)
 	private boolean habilitado;	
+	
+	@Transient
+	private int diasRestantesVtoRecordatorio;
 	
 	public Long getIdVehiculoRecordatorio() {
 		return idVehiculoRecordatorio;
@@ -86,6 +90,14 @@ public class VehiculoRecordatorio implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public int getDiasRestantesVtoRecordatorio() {
+		return diasRestantesVtoRecordatorio;
+	}
+	
+	public void setDiasRestantesVtoRecordatorio(int diasRestantesVtoRecordatorio) {
+		this.diasRestantesVtoRecordatorio = diasRestantesVtoRecordatorio;
+	}
+	
 	public VehiculoRecordatorio(Vehiculo vehiculo, Recordatorio recordatorio, boolean habilitado) {
 		super();
 		this.vehiculo = vehiculo;

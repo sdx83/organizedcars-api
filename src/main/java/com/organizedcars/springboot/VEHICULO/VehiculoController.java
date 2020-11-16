@@ -17,8 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
-import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
-import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculoServiceImpl;
 
 @RestController
 @RequestMapping("/Vehiculos")
@@ -31,9 +29,6 @@ public class VehiculoController {
     @Autowired
 	private UsuarioServiceImpl usuarioService;
     
-    @Autowired
-	private UsuarioVehiculoServiceImpl usuarioVehiculoService;
-	
 	// GET: http://localhost:8080/Vehiculos/{dominio}
     @GetMapping(value="/{dominio}")
 	public ResponseEntity<Vehiculo> getVehiculoByDominio(@PathVariable("dominio") String dominio) throws Exception{		
@@ -64,17 +59,10 @@ public class VehiculoController {
 				throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Usuario inexistente");
 			}
 			if (vehiculoDB.isPresent()) {
-				Optional<UsuarioVehiculo> uv = usuarioVehiculoService.findByUsuarioAndVehiculo(usuario.get(), vehiculoDB.get());
-				if(uv.isPresent()) {
-					throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Ya existe un vehículo con el mismo dominio y usuario");
-				}else {
-					usuarioVehiculoService.save(usuario.get(), vehiculoDB.get());
-					throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Ya existe un vehículo con el dominio ingresado. Será asignado a su cuenta");
-				}
-			}else {
-				Vehiculo nuevoVehiculo = vehiculoService.save(vehiculo, usuario.get());
-				return ResponseEntity.ok(nuevoVehiculo);
+					throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Ya existe un vehículo con el dominio ingresado");
 			}
+			Vehiculo nuevoVehiculo = vehiculoService.save(vehiculo, usuario.get());
+			return ResponseEntity.ok(nuevoVehiculo);
 		} catch (ResponseStatusException e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
 		} catch (Exception e) {
