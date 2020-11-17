@@ -1,7 +1,7 @@
 package com.organizedcars.springboot.RECORDATORIO.MAIL_DEVELOPMENT;
 
+import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,21 +15,33 @@ public class EmailServiceImple implements EmailService{
     @Autowired
     private JavaMailSender javaMailSender;
 
+    private static final String MAIL_CONSTANT="noreply@organizedcars.com";
 
 
 
-
-    public void send(String to, String subject, String text, Date date) throws MailException {
+    public void sendOnly(String to, String subject, String text, Date date) throws MailException {
 
         SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
         simpleMailMessage.setTo(to);
-        simpleMailMessage.setFrom("noreply@organizedcars.com");
+        simpleMailMessage.setFrom(MAIL_CONSTANT);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(text);
         //Aca le podemos mandar que fecha quiere mandarlo.
         simpleMailMessage.setSentDate(date);
 
         javaMailSender.send(simpleMailMessage);
+    }
+
+    public void sendMailRecordatorio(String to,String subject,Date date,String text) throws MailException{
+        SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setFrom(MAIL_CONSTANT);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(text);
+        simpleMailMessage.setSentDate(date);
+
+        javaMailSender.send(simpleMailMessage);
+
     }
 
 

@@ -7,10 +7,10 @@ import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDi
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDocsService;
 import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
+import com.organizedcars.springboot.UsefulValues;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -31,8 +31,14 @@ import java.util.*;
 public class DocumentoDigitalController {	
 
 
-	private static final Set<String> SET_FORMATOS=null;//Set.of("jpg","xlsx","pdf","docx","jpeg");
-
+	private static final Set<String> SET_FORMATOS=new HashSet<String>();
+	static {
+		SET_FORMATOS.add("jpg");
+		SET_FORMATOS.add("jpeg");
+		SET_FORMATOS.add("xlsx");
+		SET_FORMATOS.add("pdf");
+		SET_FORMATOS.add("docx");
+	}
 
 
 	@Autowired
@@ -50,10 +56,14 @@ public class DocumentoDigitalController {
 	@Autowired
 	private CloudinarDigitalDocsService cloudinarDigitalDocsService;
 
+
+
+
+
 	Cloudinary cloudinary=new Cloudinary(ObjectUtils.asMap(
 			"cloud_name","apisbackfranivan",
 			"api_key","291692491198663",
-			"api_secret","YMATgrzrFGfPtKihy_HY0Dxa4ms"
+			"api_secret", UsefulValues.PROPERTIES.get("api_secret_cloudinary")
 	));
 
 
@@ -138,26 +148,25 @@ public class DocumentoDigitalController {
 	//-- EMPIEZO CON LO DEL CLOUDINARY--
 
 	@GetMapping("/")
-	public String getListaFotos(ModelMap modelMap){
-    	return (String) modelMap.addAttribute("docsDigitales",documentoDigitalDAO.findAll()).getAttribute("docsDigitales");
+	public ArrayList<Object> getListaFotos(ModelMap modelMap){
+    	return (ArrayList<Object>) modelMap.addAttribute("docsDigitales",documentoDigitalDAO.findAll()).getAttribute("docsDigitales");
     }
 
     @PostMapping("/uploadDigitalDocs")
-	public ResponseEntity<Map> subirFotos(@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "idUsuario") String id) throws IOException {
+	public ResponseEntity<Map> subirFotos(@RequestHeader(value = "fileName") String fileName,@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "idUsuario") String idUser) throws IOException {
 
 		try{
 			//Este file name seria el que nosotros
-			File fileUpload=new File("C:/Users/IVAN/Desktop/Lineamentos para el trabajo practico.pdf");
+			String id=String.valueOf(idUser);
+			File fileUpload=new File(fileName);
 			String nombreArchivoSubir=null;
 			String[] partesNombreArchivo=fileUpload.getName().replace(".","-").split("-");
-			System.out.println("EL NOMBRE DEL ARCHIVO ES: " +fileUpload.getName());
-			System.out.println("EL nombre del archivo cambiado es:" +fileUpload.getName().replace(".","-").split("-")[1]);
 			int cantidadFotosSubidas=getDocumentosSubidos(nombre,apellido,id);
 
 			//-------
 			if(SET_FORMATOS.contains(String.valueOf(partesNombreArchivo[1]).toLowerCase())){
 				System.out.println("Tomo el formato");
-				nombreArchivoSubir=nombre+"-"+apellido+"-"+id+"-"+cantidadFotosSubidas+"."+partesNombreArchivo[1];
+				nombreArchivoSubir=nombre+"-"+apellido+"-"+id+"-"+cantidadFotosSubidas;
 
 			}
 			//-------
@@ -201,60 +210,22 @@ public class DocumentoDigitalController {
 	@ResponseStatus(HttpStatus.OK)
     public int getDocumentosSubidos(@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "idUsuario") String id) throws Exception {
     	try {
-    		ArrayList<Object> object= (ArrayList<Object>) cloudinary.api().resources(ObjectUtils.emptyMap()).get("resources");
-			//Ya sabemos que devuele un hashMap cada objeto.
-			int documentos=0;
-			String[] regex=null;
-			String nombreArchivoPersona=nombre+"-"+apellido+"-"+id;
-			for (Object o:object) {
-				HashMap<String,Object> cloudinaryImage= (HashMap<String, Object>) o;
-				for (Map.Entry<String,Object> item:cloudinaryImage.entrySet()) {
-					if(item.getKey().equals("public_id")){
-						String nombreImprimir=(String)item.getValue();
-						if(!nombreImprimir.contains("/")){
-							regex=nombreImprimir.replace(".","T").replace("-","T").split("T");
-						}
-
-						if(regex!=null) {
-							String comparar=regex[0]+"-"+regex[1]+"-"+regex[2];
-							System.out.println("COMPARAR:"+comparar);
-							
-							if (comparar.equalsIgnoreCase(nombreArchivoPersona)) {
-								documentos += 1;
-								System.out.println("Entró a la comparación del if");
-								System.out.println("Valor que compara del IF: " + item.getValue().toString());
-								System.out.println("Comparacion dentro del primer if:" + regex[0]);
-							} else {
-								System.out.println("Algo busco pero no encntro");
-								System.out.println("Value: " + item.getValue().toString());
-								System.out.println("Comparacion:" + regex[0]);
-							}
-						}
-					}
-				}
-			}
-
-
-			 System.out.println("La longitud de la lista del usuario es: " +object.size());
-			 return documentos;
+    		//El coso anterior que tenia era: .resource(ObjectUtils.emptyMap()).get("resources")
+			int cantidadFotos=cloudinarDigitalDocsService.getAllDocsById(Long.valueOf(id)).size();
+			return cantidadFotos;
 		}catch(Exception e){
     		e.printStackTrace();
 		}
-    	//Asi me trae todos los cosos, todos los resources de mi repo cloud
+    	//Asi me trae todos los cosos, todos los resources de mi repo cloud, en vez de mandarle a Cloudinary le mandamos aca, pero seria lo mismo, igualmente me guardo como se hace en cloudinary por las dudas
 		return -1;
 	}
 	@GetMapping(value = "/probarDownload/{idUsuario}")
-	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "public_id") String public_id) throws Exception {
+	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "cantidadFotos")String cantidadFotos) throws Exception {
     	//SecureUrl o assetId que se genera automatico?
+		//Como le paso aca el cantidadFotos, no porque aca cuando clickeo el botonsito del front, le tengo que pasar como esta el registro en la base.
+		String public_id=nombre+"-"+apellido+"-"+idUsuario+"-"+cantidadFotos;
+		//Esto lo cambio por el publicId de la base y nos sale al toque.
 
-		String[] tags={"public_id",public_id};
-		ArchiveParams archiveParams=new ArchiveParams();
-		ArchiveParams archiveParams1=archiveParams.tags(tags).type("upload");
-
-
-		//return 	cloudinary.downloadArchive(archiveParams1.toMap(),archiveParams1.targetFormat());
-
-		//return cloudinary.api().resources(ObjectUtils.asMap("public_ids",nombres)).toString();
 
 		for (CloudinarDigitalDoc cloudinarDigitalDoc:this.cloudinarDigitalDocsService.getAllDocsById(Long.valueOf(idUsuario))) {
 			System.out.println("El documento que trae es:"+cloudinarDigitalDoc.getFileUserName());
@@ -264,9 +235,7 @@ public class DocumentoDigitalController {
 				ObjectUtils.asMap("public_ids", Arrays.asList(public_id), "resource_type", "image"));
 
 
-    	//La foto o documento o lo que sea, lo bajamos directo al navegador y que lo vea el user.
-		//A sergio le paso la safe_url de  la foto y que la busque, mapeada contra el idUsuario
-		//id 4 url 8,id 4 url 67
+
 
 	}
 
