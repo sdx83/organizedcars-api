@@ -24,11 +24,6 @@ public class RecordatorioServiceImpl implements RecordatorioService {
 	}
 
 	@Override
-	public Recordatorio save(Recordatorio recordatorio) {
-		return recordatorioDAO.save(recordatorio);
-	}
-	
-	@Override
 	public Void delete(Recordatorio recordatorio) {
 		recordatorioDAO.delete(recordatorio);
 		return null;

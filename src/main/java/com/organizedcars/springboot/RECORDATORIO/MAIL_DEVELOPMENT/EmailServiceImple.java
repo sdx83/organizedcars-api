@@ -1,13 +1,12 @@
 package com.organizedcars.springboot.RECORDATORIO.MAIL_DEVELOPMENT;
 
-import com.organizedcars.springboot.VEHICULORECORDATORIOS.VehiculoRecordatorio;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class EmailServiceImple implements EmailService{
@@ -43,7 +42,6 @@ public class EmailServiceImple implements EmailService{
         javaMailSender.send(simpleMailMessage);
 
     }
-
 
     @Override
     public void send(SimpleMailMessage simpleMessage) throws MailException {

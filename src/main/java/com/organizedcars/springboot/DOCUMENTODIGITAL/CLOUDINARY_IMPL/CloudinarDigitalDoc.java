@@ -1,10 +1,12 @@
 package com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL;
 
-import com.organizedcars.springboot.VEHICULO.Vehiculo;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "documentos_subidos_por_usuario")

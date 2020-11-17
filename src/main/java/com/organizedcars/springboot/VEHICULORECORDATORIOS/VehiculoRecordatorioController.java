@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,9 +24,6 @@ import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 @RequestMapping("/VehiculoRecordatorios")
 @CrossOrigin(origins = "*")
 public class VehiculoRecordatorioController {	
-	
-	@Value("${dias.aviso.recordatorio}")
-	private int diasAvisoRecordatorio;
 	
     @Autowired
 	private VehiculoRecordatorioServiceImpl vehiculoRecordatorioService;
@@ -56,21 +52,30 @@ public class VehiculoRecordatorioController {
  	}
   	
  	
-  	// POST: http://localhost:8080/VehiculoRecordatorios/{nombrerecordatorio}/{fecharecordatorio}/{dominio}
-    @RequestMapping(value = "/{nombreRecordatorio}/{fechaRecordatorio}/{dominio}", method = RequestMethod.POST)
+  	// POST: http://localhost:8080/VehiculoRecordatorios/{nombrerecordatorio}/{fecharecordatorio}/{dominio}/{usuario}
+    @RequestMapping(value = "/{nombreRecordatorio}/{fechaRecordatorio}/{dominio}/{usuario}", method = RequestMethod.POST)
  	public ResponseEntity<VehiculoRecordatorio> crearVehiculoRecordatorioCustom(@PathVariable("nombreRecordatorio") String nombreRecordatorio,
  																			@PathVariable("fechaRecordatorio") String fechaRecordatorio,
- 																				@PathVariable("dominio") String dominio) throws Exception {
+ 																				@PathVariable("dominio") String dominio,
+ 																				@PathVariable("usuario") String usuario) throws Exception {
 
  		try {
+ 			
+ 			Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario);
+ 			
+ 			if (!usuarioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+ 			}
+ 			
  			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
  			
  			if (!vehiculo.isPresent()) {
  				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehículo no encontrado");
- 			}else {
- 				//aca guarda el recordatorio custom y asigno al vehiculo en la tabla VehiculoRecordatorios
- 	 			return ResponseEntity.ok(vehiculoRecordatorioService.save(nombreRecordatorio,fechaRecordatorio,vehiculo.get()));
  			}
+ 			
+ 			//aca guarda el recordatorio custom y asigno al vehiculo en la tabla VehiculoRecordatorios
+ 	 		return ResponseEntity.ok(vehiculoRecordatorioService.save(nombreRecordatorio,fechaRecordatorio,vehiculo.get(), usuarioExistente.get().getMail()));
+ 			
  		} catch (ResponseStatusException e) {
  	 		throw new Exception(e.getReason());
  	 	} catch (Exception e) {
@@ -98,17 +103,25 @@ public class VehiculoRecordatorioController {
 		}
  	}
  	
-    //PUT: http://localhost:8080/VehiculoRecordatorios/1
- 	@RequestMapping(value = "/{idVehiculoRecordatorio}", method = RequestMethod.PUT)
+    //PUT: http://localhost:8080/VehiculoRecordatorios/idVehiculoRecordatorio/{usuario}
+ 	@RequestMapping(value = "/{idVehiculoRecordatorio}/{usuario}", method = RequestMethod.PUT)
     public ResponseEntity<VehiculoRecordatorio> actualizarVehiculoRecordatorio(@PathVariable("idVehiculoRecordatorio") Long id,
-   		 															@RequestBody VehiculoRecordatorio vehiculoRecordatorio) throws Exception {
+   		 															@RequestBody VehiculoRecordatorio vehiculoRecordatorio,
+   		 															@PathVariable("usuario") String usuario) throws Exception {
  		
  		try {
+ 			
+ 			Optional<Usuario> usuarioExistente = usuarioService.findByUsuario(usuario);
+ 			
+ 			if (!usuarioExistente.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+ 			}
+ 			
  			Optional<VehiculoRecordatorio> vehiculoRecordatiorioExistente = vehiculoRecordatorioService.findById(id);
  			if (!vehiculoRecordatiorioExistente.isPresent()) {
  				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Recordatorio del vehículo no encontrado");
  			}
- 			return ResponseEntity.ok(vehiculoRecordatorioService.update(vehiculoRecordatiorioExistente.get(), vehiculoRecordatorio));
+ 			return ResponseEntity.ok(vehiculoRecordatorioService.update(vehiculoRecordatiorioExistente.get(), vehiculoRecordatorio, usuarioExistente.get().getMail()));
  		} catch (ResponseStatusException e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getReason());
  		} catch (Exception e) {
@@ -172,7 +185,7 @@ public class VehiculoRecordatorioController {
  				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
  			}
  			
- 			List<VehiculoRecordatorio> notificaciones = vehiculoRecordatorioService.enviarNotificaciones(usuarioExistente.get(), diasAvisoRecordatorio);
+ 			List<VehiculoRecordatorio> notificaciones = vehiculoRecordatorioService.enviarNotificaciones(usuarioExistente.get());
  			
  			if(notificaciones != null && notificaciones.size() > 0) {
  				return ResponseEntity.ok(notificaciones);

@@ -1,10 +1,11 @@
 package com.organizedcars.springboot.RECORDATORIO.MAIL_DEVELOPMENT;
 
-import com.organizedcars.springboot.UsefulValues;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import com.organizedcars.springboot.HELPERS.UsefulValues;
 
 import java.util.Properties;
 
@@ -27,7 +28,6 @@ public class JavaMailSenderProperties {
         properties.put("mail.smtp.starttls.enable","true");
         properties.put("mail.debug","true");
         properties.put("mail.smtp.ssl.trust","smtp.gmail.com");
-
 
         return mailSender;
     }
