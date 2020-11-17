@@ -30,10 +30,6 @@ public class CloudinarDigitalDoc {
     @NotNull
     private Long idUsuario;
 
-    @Column(name="autoAsociado")
-    @NotNull
-    private Vehiculo vehiculo;
-
     public CloudinarDigitalDoc(){
 
     }
