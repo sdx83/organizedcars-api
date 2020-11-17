@@ -1,5 +1,6 @@
 package com.organizedcars.springboot.RECORDATORIO.MAIL_DEVELOPMENT;
 
+import com.organizedcars.springboot.UsefulValues;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,8 +17,9 @@ public class JavaMailSenderProperties {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("organizedcardsenterprise@gmail.com");
-        mailSender.setPassword("OrgCars20202C");
+        mailSender.setUsername(UsefulValues.PROPERTIES.get("username"));
+        mailSender.setPassword(UsefulValues.PROPERTIES.get("password"));
+
 
         Properties properties=mailSender.getJavaMailProperties();
         properties.put("mail.transport.protocol","smtp");

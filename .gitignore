@@ -2,7 +2,7 @@
 .metadata/
 
 .mvn/wrapper/
-
+ 
 .settings/
 
 .classpath
@@ -12,3 +12,8 @@
 target/classes/
 
 target/test-classes/com/organizedcars/test/
+/target/
+
+.idea
+
+organizedcars-api.iml

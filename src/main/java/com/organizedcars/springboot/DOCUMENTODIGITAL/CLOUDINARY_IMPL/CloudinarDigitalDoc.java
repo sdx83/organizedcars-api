@@ -1,5 +1,7 @@
 package com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL;
 
+import com.organizedcars.springboot.VEHICULO.Vehiculo;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -27,6 +29,14 @@ public class CloudinarDigitalDoc {
     @Column(name = "idUsuario")
     @NotNull
     private Long idUsuario;
+
+    @Column(name="autoAsociado")
+    @NotNull
+    private Vehiculo vehiculo;
+
+    public CloudinarDigitalDoc(){
+
+    }
 
     public CloudinarDigitalDoc(String public_id,String fileUserName,Long idUsuario,String descripcionArchivo){
         this.fileUserName=fileUserName;
