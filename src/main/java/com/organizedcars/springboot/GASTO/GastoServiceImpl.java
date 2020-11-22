@@ -16,6 +16,9 @@ public class GastoServiceImpl implements GastoService {
 	@Autowired
 	GastoDAO gastoDAO;
 	
+	@Autowired
+	TotalCategoriasDAO tcDAO;
+	
 	@Transactional(readOnly = true)
 	public Optional<Gasto> findById(Long id) {
 		return gastoDAO.findById(id);
@@ -36,5 +39,15 @@ public class GastoServiceImpl implements GastoService {
 	@Override
 	public List<Gasto> findByVehiculo(Vehiculo vehiculo) {
 		return gastoDAO.findByVehiculo(vehiculo);
+	}
+
+	@Override
+	public List<TotalGastosPorCategoria> obtenerGastosAgrupadosPorCategoria(Long idVehiculo) {
+		return tcDAO.obtenerGastosAgrupadosPorCategoria(idVehiculo);
+	}
+	
+	@Override
+	public List<TotalGastosPorCategoria> obtenerGastosAgrupadosPorCategoriaDelUltimoAnio(Long idVehiculo) {
+		return tcDAO.obtenerGastosAgrupadosPorCategoriaDelUltimoAnio(idVehiculo);
 	}
 }

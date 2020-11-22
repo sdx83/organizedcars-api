@@ -132,4 +132,56 @@ public class GastoController {
 			throw new Exception("Error al obtener las categorías");
 		}
 	}
+    
+ 	// GET: http://localhost:8080/Gastos/TotalCategorias/{dominio}
+    @GetMapping(value="/TotalCategorias/{dominio}")
+	public ResponseEntity<List<TotalGastosPorCategoria>> obtenerTotalCategorias(@PathVariable("dominio") String dominio) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
+ 			
+ 			if (!vehiculo.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehículo no encontrado");
+ 			}
+ 			
+ 			List<TotalGastosPorCategoria> totalCategorias = gastoService.obtenerGastosAgrupadosPorCategoria(vehiculo.get().getIdVehiculo());
+ 			
+ 			if(totalCategorias != null && totalCategorias.size() > 0) {
+ 				return ResponseEntity.ok(totalCategorias);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener los resultados");
+		}
+	}
+    
+ 	// GET: http://localhost:8080/Gastos/TotalCategoriasUltimoAnio/{dominio}
+    @GetMapping(value="/TotalCategoriasUltimoAnio/{dominio}")
+	public ResponseEntity<List<TotalGastosPorCategoria>> obtenerTotalCategoriasUltimoAnio(@PathVariable("dominio") String dominio) throws Exception{		
+ 		
+ 		try {
+ 			Optional<Vehiculo> vehiculo = vehiculoService.findByDominio(dominio);
+ 			
+ 			if (!vehiculo.isPresent()) {
+ 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehículo no encontrado");
+ 			}
+ 			
+ 			List<TotalGastosPorCategoria> totalCategorias = gastoService.obtenerGastosAgrupadosPorCategoriaDelUltimoAnio(vehiculo.get().getIdVehiculo());
+ 			
+ 			if(totalCategorias != null && totalCategorias.size() > 0) {
+ 				return ResponseEntity.ok(totalCategorias);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener los resultados");
+		}
+	}
 }
