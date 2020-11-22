@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.organizedcars.springboot.CATEGORIAGASTO.Categoria;
+import com.organizedcars.springboot.CATEGORIAGASTO.CategoriaServiceImpl;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
 
@@ -29,6 +31,10 @@ public class GastoController {
     
     @Autowired
 	private VehiculoServiceImpl vehiculoService;
+    
+    @Autowired
+	private CategoriaServiceImpl categoriaService;
+    
 	
     //GET: http://localhost:8080/Gastos/1
     @GetMapping(value="/{idGasto}")
@@ -104,6 +110,26 @@ public class GastoController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
 		} catch (Exception e) {
 			throw new Exception("Error al obtener los gastos");
+		}
+	}
+    
+ 	// GET: http://localhost:8080/Gastos/Categorias
+    @GetMapping(value="/Categorias")
+	public ResponseEntity<List<Categoria>> obtenerCategoriaDeGastos() throws Exception{		
+ 		
+ 		try {
+ 			List<Categoria> categorias = categoriaService.findAll();
+ 			
+ 			if(categorias != null && categorias.size() > 0) {
+ 				return ResponseEntity.ok(categorias);
+ 	 		}
+ 			else {
+ 	 			return ResponseEntity.noContent().build();
+ 	 		}
+ 		} catch (ResponseStatusException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getReason());
+		} catch (Exception e) {
+			throw new Exception("Error al obtener las categorías");
 		}
 	}
 }
