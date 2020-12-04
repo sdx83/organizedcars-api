@@ -5,11 +5,13 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDoc;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDocsService;
+import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinaryDigitalDocsDAO;
 import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
 import com.organizedcars.springboot.UsefulValues;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
+import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -17,16 +19,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.xml.bind.ValidationEventLocator;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
 @RestController
 @RequestMapping("/DocumentosDigitales")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @PropertySource("application.properties")
 public class DocumentoDigitalController {	
 
@@ -38,6 +47,7 @@ public class DocumentoDigitalController {
 		SET_FORMATOS.add("xlsx");
 		SET_FORMATOS.add("pdf");
 		SET_FORMATOS.add("docx");
+		SET_FORMATOS.add("png");
 	}
 
 
@@ -152,13 +162,14 @@ public class DocumentoDigitalController {
     	return (ArrayList<Object>) modelMap.addAttribute("docsDigitales",documentoDigitalDAO.findAll()).getAttribute("docsDigitales");
     }
 
-    @PostMapping("/uploadDigitalDocs")
-	public ResponseEntity<Map> subirFotos(@RequestHeader(value = "fileName") String fileName,@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "idUsuario") String idUser) throws IOException {
+
+	public ResponseEntity<Map> subirFotos(String fileName, String nombre,String apellido, String idUser) throws IOException {
 
 		try{
 			//Este file name seria el que nosotros
+			final String urlDocumentos="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio\\"+fileName;
 			String id=String.valueOf(idUser);
-			File fileUpload=new File(fileName);
+			File fileUpload=new File(urlDocumentos);
 			String nombreArchivoSubir=null;
 			String[] partesNombreArchivo=fileUpload.getName().replace(".","-").split("-");
 			int cantidadFotosSubidas=getDocumentosSubidos(nombre,apellido,id);
@@ -217,25 +228,81 @@ public class DocumentoDigitalController {
     		e.printStackTrace();
 		}
     	//Asi me trae todos los cosos, todos los resources de mi repo cloud, en vez de mandarle a Cloudinary le mandamos aca, pero seria lo mismo, igualmente me guardo como se hace en cloudinary por las dudas
+		//Sino funca tirar la request con prefixs
 		return -1;
 	}
 	@GetMapping(value = "/probarDownload/{idUsuario}")
 	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "cantidadFotos")String cantidadFotos) throws Exception {
-    	//SecureUrl o assetId que se genera automatico?
-		//Como le paso aca el cantidadFotos, no porque aca cuando clickeo el botonsito del front, le tengo que pasar como esta el registro en la base.
+
 		String public_id=nombre+"-"+apellido+"-"+idUsuario+"-"+cantidadFotos;
-		//Esto lo cambio por el publicId de la base y nos sale al toque.
+
 
 
 		for (CloudinarDigitalDoc cloudinarDigitalDoc:this.cloudinarDigitalDocsService.getAllDocsById(Long.valueOf(idUsuario))) {
 			System.out.println("El documento que trae es:"+cloudinarDigitalDoc.getFileUserName());
 		}
-		//Ver si en resource type le tengo que pasar siempre asi la imagen o le puedo pasar directamente el formato del archivo correspondiente.
 		return cloudinary.downloadZip(
-				ObjectUtils.asMap("public_ids", Arrays.asList(public_id), "resource_type", "image"));
+				ObjectUtils.asMap("public_ids", Arrays.asList(public_id)));
+		//Este string ponerlo en el onClick del boton del ver para que descargue.
 
+	}
 
+	@PostMapping(value = "/subirArchivosDirectorio/{nombre}/{apellido}/{idUsuario}",consumes = "multipart/form-data",produces = "application/json")
+	public ResponseEntity<Map> subirArchivoDirectorio(@RequestParam(name = "archivo") MultipartFile multipartFile,@PathVariable(value = "nombre")String nombre,@PathVariable(value = "apellido") String apellido,@PathVariable(value = "idUsuario") String idUser) throws IOException{
+    	File directorio;
+    	try{
+    		
+			int control=0;
+    		directorio=new File("directorio");
+    		directorio.mkdir();
+    		
+			Path directorioImagenes= Paths.get("src//directorio");
+			String rutaAbsolutaCompleta=directorioImagenes.toFile().getAbsolutePath();
 
+			String directorioIterar="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio";
+
+			DirectoryStream<Path> ds=Files.newDirectoryStream(Paths.get(directorioIterar));
+			if(!multipartFile.isEmpty()) {
+				for (Path path : ds) {
+					if (multipartFile.getOriginalFilename().equalsIgnoreCase(String.valueOf(path.getFileName()))) {
+						System.out.println("El archivo ya existe en el directorio, no se pudo crear.");
+						throw new Exception("El archivo ya se encuentra en el directorio");
+					} else {
+						byte[] inputStreamImagen = multipartFile.getBytes();
+						Path rutaCompleta = Paths.get(rutaAbsolutaCompleta + "//" + multipartFile.getOriginalFilename());
+						Files.write(rutaCompleta, inputStreamImagen);
+						control=1;
+					}
+				}
+			}
+
+			if(control==1){
+				//Esta el archivo dentro de la carpeta, lo subimos.
+				ResponseEntity<Map> mapReturn=this.subirFotos(multipartFile.getOriginalFilename(),nombre,apellido,idUser);
+				if(mapReturn!=null){
+					//Significa que no necesito tener mas el archivo en el directorio, de igual manera lo desarrollo mas adelante.
+					//Llamar a la funcion de borrado.
+					System.out.println("El resultado no fue null, aca tendria que ir la de borrado.");
+				}
+				return new ResponseEntity<>(mapReturn.getBody(),HttpStatus.OK);
+
+			}
+
+			Map<String,String> mapReturn=new HashMap<>();
+			mapReturn.put("ERROR","ERROR AL SUBIR EL ARCHIVO");
+			return new ResponseEntity<>(mapReturn,HttpStatus.INTERNAL_SERVER_ERROR);
+		}catch(Exception e){
+    		throw new Error("El error fue:" +e);
+		}
+	}
+
+	@GetMapping(value = "/documentosPorUsuario/{idUsuario}")
+	public List<CloudinarDigitalDoc> getAllDocsInfo(@PathVariable(value = "idUsuario")int idUsuario) throws Exception {
+    	try{
+			return this.cloudinarDigitalDocsService.getAllDocsById((long) idUsuario);
+		}catch(Exception e){
+    		throw new Exception(e.getMessage());
+		}
 
 	}
 
