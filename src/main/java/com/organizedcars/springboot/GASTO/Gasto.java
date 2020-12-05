@@ -44,6 +44,8 @@ public class Gasto implements Serializable  {
 	@Column(nullable=false,scale = 2, precision = 8)
 	private BigDecimal precio;
 
+	//Fecha importantisimo!
+
 	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}
