@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.organizedcars.springboot.DOCUMENTODIGITAL.DocumentoDigital;
 import com.organizedcars.springboot.GASTO.Gasto;
 import com.organizedcars.springboot.MANTENIMIENTO.Mantenimiento;
 import com.organizedcars.springboot.USUARIOVEHICULOS.UsuarioVehiculo;
@@ -91,10 +90,6 @@ public class Vehiculo implements Serializable {
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	@JsonIgnore
     private List<Gasto> gastos;
-	
-	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-	@JsonIgnore
-	private List<DocumentoDigital> documentosDigitales;
 	
 	@OneToMany(mappedBy = "vehiculo", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	@JsonIgnore
@@ -266,14 +261,6 @@ public class Vehiculo implements Serializable {
 
 	public void setGastos(List<Gasto> gastos) {
 		this.gastos = gastos;
-	}
-
-	public List<DocumentoDigital> getDocumentosDigitales() {
-		return documentosDigitales;
-	}
-
-	public void setDocumentosDigitales(List<DocumentoDigital> documentosDigitales) {
-		this.documentosDigitales = documentosDigitales;
 	}
 
 	public List<VehiculoRecordatorio> getRecordatorios() {
