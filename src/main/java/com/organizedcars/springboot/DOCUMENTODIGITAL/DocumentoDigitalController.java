@@ -232,11 +232,7 @@ public class DocumentoDigitalController {
 		return -1;
 	}
 	@GetMapping(value = "/probarDownload/{idUsuario}")
-	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "nombre") String nombre,@RequestHeader(value = "apellido") String apellido,@RequestHeader(value = "cantidadFotos")String cantidadFotos) throws Exception {
-
-		String public_id=nombre+"-"+apellido+"-"+idUsuario+"-"+cantidadFotos;
-
-
+	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "public_id")String public_id) throws Exception {
 
 		for (CloudinarDigitalDoc cloudinarDigitalDoc:this.cloudinarDigitalDocsService.getAllDocsById(Long.valueOf(idUsuario))) {
 			System.out.println("El documento que trae es:"+cloudinarDigitalDoc.getFileUserName());
@@ -283,8 +279,9 @@ public class DocumentoDigitalController {
 					//Significa que no necesito tener mas el archivo en el directorio, de igual manera lo desarrollo mas adelante.
 					//Llamar a la funcion de borrado.
 					System.out.println("El resultado no fue null, aca tendria que ir la de borrado.");
+					return new ResponseEntity<>(mapReturn.getBody(),HttpStatus.OK);
 				}
-				return new ResponseEntity<>(mapReturn.getBody(),HttpStatus.OK);
+
 
 			}
 
