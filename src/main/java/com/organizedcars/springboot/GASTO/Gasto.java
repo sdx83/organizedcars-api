@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.organizedcars.springboot.CATEGORIAGASTO.Categoria;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 
 @Entity
@@ -26,8 +27,16 @@ public class Gasto implements Serializable  {
 	private Long idGasto;
 	
 	@ManyToOne
+	@JoinColumn(name="id_categoria",nullable=false)
+	private Categoria categoria;
+	
+	@ManyToOne
 	@JoinColumn(name="id_vehiculo",nullable=false)
 	private Vehiculo vehiculo;
+	
+	
+	@Column(nullable=false,length=8)
+	private String fecha;
 	
 	@Column(nullable=false,length=30)
 	private String descripcion;
@@ -67,6 +76,22 @@ public class Gasto implements Serializable  {
 
 	public void setIdGasto(Long idGasto) {
 		this.idGasto = idGasto;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 
 }

@@ -12,5 +12,8 @@ public interface GastoService {
 	
 	public List<Gasto> findByVehiculo(Vehiculo vehiculo);
 	
+	public List<TotalGastosPorCategoria> obtenerGastosAgrupadosPorCategoria(Long idVehiculo);
+	
+	public List<TotalGastosPorCategoria> obtenerGastosAgrupadosPorCategoriaDelUltimoAnio(Long idVehiculo);
 	
 }

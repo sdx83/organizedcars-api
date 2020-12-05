@@ -1,33 +1,25 @@
 package com.organizedcars.springboot.DOCUMENTODIGITAL;
 
-import com.cloudinary.ArchiveParams;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDoc;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDocsService;
-import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinaryDigitalDocsDAO;
+import com.organizedcars.springboot.HELPERS.UsefulValues;
 import com.organizedcars.springboot.USUARIO.Usuario;
 import com.organizedcars.springboot.USUARIO.UsuarioServiceImpl;
-import com.organizedcars.springboot.UsefulValues;
 import com.organizedcars.springboot.VEHICULO.Vehiculo;
 import com.organizedcars.springboot.VEHICULO.VehiculoServiceImpl;
-import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.xml.bind.ValidationEventLocator;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
