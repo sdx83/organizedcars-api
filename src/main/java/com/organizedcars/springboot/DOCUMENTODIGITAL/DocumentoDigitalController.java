@@ -3,6 +3,7 @@ package com.organizedcars.springboot.DOCUMENTODIGITAL;
 import com.cloudinary.ArchiveParams;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDoc;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinarDigitalDocsService;
 import com.organizedcars.springboot.DOCUMENTODIGITAL.CLOUDINARY_IMPL.CloudinaryDigitalDocsDAO;
@@ -35,7 +36,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/DocumentosDigitales")
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @PropertySource("application.properties")
 public class DocumentoDigitalController {	
 
@@ -231,14 +232,15 @@ public class DocumentoDigitalController {
 		//Sino funca tirar la request con prefixs
 		return -1;
 	}
-	@GetMapping(value = "/probarDownload/{idUsuario}")
-	private String bajarImagenPorUsuario(@PathVariable(value = "idUsuario") String idUsuario,@RequestHeader(value = "public_id")String public_id) throws Exception {
-
-		for (CloudinarDigitalDoc cloudinarDigitalDoc:this.cloudinarDigitalDocsService.getAllDocsById(Long.valueOf(idUsuario))) {
-			System.out.println("El documento que trae es:"+cloudinarDigitalDoc.getFileUserName());
-		}
-		return cloudinary.downloadZip(
+	@GetMapping(value = "/probarDownload/{public_id}",produces = "application/json")
+	private ResponseEntity<Map<String,String>> bajarImagenPorUsuario(@PathVariable(value = "public_id")String public_id) throws Exception {
+		System.out.println("PASA POR ACA");
+		String url=cloudinary.downloadZip(
 				ObjectUtils.asMap("public_ids", Arrays.asList(public_id)));
+		System.out.println("URL: "+url);
+		Map<String,String> map=new HashMap<>();
+		map.put("url",url);
+		return new ResponseEntity<>(map,HttpStatus.OK);
 		//Este string ponerlo en el onClick del boton del ver para que descargue.
 
 	}
@@ -255,22 +257,16 @@ public class DocumentoDigitalController {
 			Path directorioImagenes= Paths.get("src//directorio");
 			String rutaAbsolutaCompleta=directorioImagenes.toFile().getAbsolutePath();
 
-			String directorioIterar="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio";
+			//String directorioIterar="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio";
 
-			DirectoryStream<Path> ds=Files.newDirectoryStream(Paths.get(directorioIterar));
+			//DirectoryStream<Path> ds=Files.newDirectoryStream(Paths.get(directorioIterar));
 			if(!multipartFile.isEmpty()) {
-				for (Path path : ds) {
-					if (multipartFile.getOriginalFilename().equalsIgnoreCase(String.valueOf(path.getFileName()))) {
-						System.out.println("El archivo ya existe en el directorio, no se pudo crear.");
-						throw new Exception("El archivo ya se encuentra en el directorio");
-					} else {
-						byte[] inputStreamImagen = multipartFile.getBytes();
-						Path rutaCompleta = Paths.get(rutaAbsolutaCompleta + "//" + multipartFile.getOriginalFilename());
-						Files.write(rutaCompleta, inputStreamImagen);
-						control=1;
-					}
-				}
+				byte[] inputStreamImagen = multipartFile.getBytes();
+				Path rutaCompleta = Paths.get(rutaAbsolutaCompleta + "//" + multipartFile.getOriginalFilename());
+				Files.write(rutaCompleta, inputStreamImagen);
+				control = 1;
 			}
+
 
 			if(control==1){
 				//Esta el archivo dentro de la carpeta, lo subimos.
