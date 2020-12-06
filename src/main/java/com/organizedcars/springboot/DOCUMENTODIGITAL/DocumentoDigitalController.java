@@ -84,7 +84,7 @@ public class DocumentoDigitalController {
 
 		try{
 			//Este file name seria el que nosotros
-			final String urlDocumentos="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio\\"+fileName;
+			final String urlDocumentos=System.getProperty("java.io.tmpdir")+"/"+fileName;
 			String id=String.valueOf(idUser);
 			File fileUpload=new File(urlDocumentos);
 			String nombreArchivoSubir=null;
@@ -167,10 +167,11 @@ public class DocumentoDigitalController {
     	try{
     		
 			int control=0;
-    		directorio=new File("directorio");
+			String url=System.getProperty("java.io.tmpdir")+"/";
+    		directorio=new File(url);
     		directorio.mkdir();
     		
-			Path directorioImagenes= Paths.get("src//directorio");
+			Path directorioImagenes= Paths.get(url);
 			String rutaAbsolutaCompleta=directorioImagenes.toFile().getAbsolutePath();
 
 			//String directorioIterar="C:\\Users\\IVAN\\Desktop\\seminarioBackNuevo\\organizedcars-api\\src\\directorio";
